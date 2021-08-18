@@ -10,30 +10,34 @@
       </a>
     </li>
   </ul>
-  <modal v-if="showModal">
+  <modal v-if="showModal" :handleClose="() => showModal = false">
     <Content />
   </modal>
+  <pre>
+    showModal: {{showModal}}
+  </pre>
 </template>
 
-<script>
+<script lang="ts">
 import modal from '../components/modal.vue'
+import { ref } from 'vue'
 
 export default {
   components: {
     modal
   },
-  data() {
-    return {
-      showModal: true
+  setup () {
+    // data
+    const showModal = ref(window.location.pathname !== '/')
+
+    const showWorkPost = () => {
+      showModal.value = true
     }
-  },
-  created() {
-    this.showModal = window.location.pathname !== '/'
-  },
-  methods: {
-    showWorkPost() {
-      this.showModal = true
-    } 
+
+    return {
+      showModal,
+      showWorkPost
+    }
   }
 }
 </script>

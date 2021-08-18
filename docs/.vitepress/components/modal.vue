@@ -7,16 +7,17 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
-  data() {
-    return {
-      visibility: true
-    }
+  props: {
+    handleClose: Function
   },
-  methods: {
-    onClose() {
-      window.location.href = '/'
+  setup(props) {
+    const onClose = () => {
+      props.handleClose()
+    }
+    return {
+      onClose
     }
   }
 }
