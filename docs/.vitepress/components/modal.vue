@@ -56,12 +56,11 @@ export default {
       z-index: -1;
     }
     &-innr {
-      width: 90%;
-      min-width: 800px;
+      width: 96%;
       max-width: 960px;
       min-height: 420px;
-      margin: 5vh auto;
-      padding: 5em 3em 3em;
+      margin: 2vw auto;
+      padding: 2em 1em;
       box-sizing: border-box;
       z-index: 1;
       box-shadow: 30px 30px 20px #222;
@@ -70,6 +69,12 @@ export default {
       border: 1px solid rgba(255,255,255,0.2);
       backdrop-filter: blur(5px);
       animation: slide-skew 0.4s cubic-bezier(0.25, 1, 0.5, 1) 1 forwards;
+      // PC
+      @media (min-aspect-ratio: 1 / 1) {
+        width: 90%;
+        margin: 5vh auto;
+        padding: 5em 3em 3em;
+      }
     }
     &-close {
       padding: 0.2em 0.8em;
@@ -91,8 +96,12 @@ export default {
   /* markdown style */
   .md {
     &-header {
-      margin-bottom: 3em;
+      margin-bottom: 1em;
       text-align: center;
+      // PC
+      @media (min-aspect-ratio: 1 / 1) {
+        margin-bottom: 3em;
+      }
     }
     &-url {
       color: #444;
@@ -101,18 +110,22 @@ export default {
       text-decoration: none;
     }
     &-title {
-      font-size: 1.6em;
+      font-size: 1.2em;
       font-weight: 200;
       margin: 0;
+      @media (min-aspect-ratio: 1 / 1) {
+        font-size: 1.6em;
+      }
     }
     &-tags {
       display: flex;
+      flex-wrap: wrap;
       list-style: none;
       justify-content: center;
       margin: 0;
       padding-left: 0;
       li {
-        margin: 0 0.2em;
+        margin: 0.2em;
         padding: 0.2em 0.5em;
         background: rgba(255, 255, 255, 0.1);
         border-radius: 4px;
@@ -122,13 +135,35 @@ export default {
     }
     &-mv {
       text-align: center;
-      margin-bottom: 3em;
+      margin-bottom: 1em;
+      @media (min-aspect-ratio: 1 / 1) {
+        margin-bottom: 3em;
+      }
+      &-img {
+        max-width: 100%;
+      }
     }
     &-content {
-      line-height: 1.8;
+      line-height: 1.5;
+      // Mobile
+      @media (max-aspect-ratio: 1 / 1) {
+        font-size: 3vw;
+      }
+      // PC
+      @media (min-aspect-ratio: 1 / 1) {
+        line-height: 1.8;
+      }
       h2 {
         text-align: center;
-        font-weight: normal;
+        font-weight: 200;
+        margin: 2em auto 1em;
+        font-size: 1.2em;
+      }
+      h3 {
+        font-size: 1em;
+        font-weight: 200;
+        border-bottom: 1px dashed #999;
+        margin: 1.5em auto 0.2em;
       }
       img {
         max-width: 100%;

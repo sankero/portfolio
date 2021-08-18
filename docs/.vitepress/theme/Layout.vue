@@ -87,38 +87,59 @@ body {
 }
 .container {
   height: 100vh;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
   overflow: hidden;
 }
+@media (min-aspect-ratio: 1 / 1) {
+  .container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+}
+
 // カード配置の調整
 $diagonalWidth = 80vw
+$diagonalWidthMobile = 100vh
 $diagonalCol = 5
+$diagonalColMobile = 4
 $diagonalCardMargin = 1vw
+$diagonalCardMarginMobile = 2vw
 $diagonalCardWidth = (($diagonalWidth / $diagonalCol) - $diagonalCardMargin * 2)
+$diagonalCardWidthMobile = (($diagonalWidthMobile / $diagonalColMobile) - $diagonalCardMarginMobile * 2)
 $diagonalCardBlank = $diagonalWidth / $diagonalCol
+$diagonalCardBlankMobile = $diagonalWidthMobile / $diagonalColMobile
 
 .diagonal {
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
-  max-width: $diagonalWidth;
-  transform-origin: center right;
-  transform: skew(-35deg, 20deg) translate(40%, 20%);
   transition-delay: 1s;
-  list-style: none;
+  // Mobile and Tablet
+  width: $diagonalWidthMobile;
+  transform-origin: center right;
+  transform: skew(-35deg, 20deg) translate(15%, 15%);
+}
+// Tablet
+@media (min-aspect-ratio: 2 / 3) {
+  .diagonal {
+    width: $diagonalWidthMobile;
+    transform-origin: center right;
+    transform: skew(-35deg, 20deg) translate(35%, 15%);
+  }
+}
+// PC
+@media (min-aspect-ratio: 1 / 1) {
+  .diagonal {
+    width: $diagonalWidth;
+    transform-origin: center right;
+    transform: skew(-35deg, 20deg) translate(40%, 20%);
+  }
 }
 .card {
   color: #FFF;
   text-shadow: 1px 1px 6px #333;
-  flex-basis: $diagonalCardWidth;
   flex-shrink: 0;
   flex-grow: 0;
   width: 100%;
-  height: ($diagonalCardWidth * 0.56);
-  margin: 0.8vw;
-  padding: 5px 15px;
   box-sizing: border-box;
   position: relative;
   /* Glassmorphism */
@@ -130,10 +151,13 @@ $diagonalCardBlank = $diagonalWidth / $diagonalCol
   background-size: cover;
   transition-duration: 0.3s;
   background-blend-mode:lighten;
-  cursor: pointer;
-  // box-shadow: #666 1px 1px 3px;
   box-shadow: #BBB 6px 6px 2px;
-  // box-shadow: rgb(0 0 0 / 40%) 6px 6px 10px;
+  cursor: pointer;
+  // Mobile
+  flex-basis: $diagonalCardWidthMobile;
+  height: ($diagonalCardWidthMobile * 0.56);
+  margin: 2vw;
+
   &-title {
     position: absolute;
     bottom: 0;
@@ -154,31 +178,7 @@ $diagonalCardBlank = $diagonalWidth / $diagonalCol
     border-radius: 6px;
     font-size: 0.8vw;
   }
-  // 1 line
-  &:nth-child(3) { margin-right: ($diagonalCardBlank * 2);}
-  // 2 line
-  &:nth-child(4) { margin-left: ($diagonalCardBlank * 0.5);}
-  &:nth-child(6) { margin-right: ($diagonalCardBlank * 1.5);}
-  // 3 line
-  &:nth-child(7) { margin-left: ($diagonalCardBlank * 0.25);}
-  &:nth-child(10) { margin-right: ($diagonalCardBlank * 0.75);}
-  // 4 line
-  &:nth-child(11) { margin-left: ($diagonalCardBlank * 0.75);}
-  &:nth-child(14) { margin-right: ($diagonalCardBlank * 0.25);}
-  // 5 line
-  &:nth-child(15) { margin-left: ($diagonalCardBlank * 0.5);}
-  &:nth-child(18) { margin-right: ($diagonalCardBlank * 0.5);}
-  // 6 line
-  &:nth-child(19) { margin-left: ($diagonalCardBlank * 0.75);}
-  &:nth-child(22) { margin-right: ($diagonalCardBlank * 0.25);}
-  // 7 line
-  &:nth-child(23) { margin-left: ($diagonalCardBlank * 0.5);}
   &:hover {
-    /*
-    background-color: rgba(255,255,255,0.4);
-    transform: translate3d(-6px, -6px, 0px);
-    box-shadow: rgb(0 0 0 / 40%) 6px 6px 10px;
-    */
     transform: translate3d(-3px, -3px, 0px);
     box-shadow: #aaa 9px 9px 2px;
     .card-title {
@@ -191,6 +191,62 @@ $diagonalCardBlank = $diagonalWidth / $diagonalCol
     .card-title {
       visibility: visible;
     }
+  }
+}
+// Mobile
+@media (max-aspect-ratio: 2 / 3) {
+  .card {
+  }
+}
+// Tablet
+@media (max-aspect-ratio: 1 / 1) {
+  .card {
+    // 1 line
+    &:nth-child(2) { margin-right: ($diagonalCardBlankMobile * 2);}
+    // 2 line
+    &:nth-child(3) { margin-left: ($diagonalCardBlankMobile * 0.3);}
+    &:nth-child(4) { margin-right: ($diagonalCardBlankMobile * 1.7);}
+    // 3 line
+    &:nth-child(5) { margin-left: ($diagonalCardBlank * 0.25);}
+    &:nth-child(7) { margin-right: ($diagonalCardBlank * 0.75);}
+    // 4 line
+    &:nth-child(8) { margin-left: ($diagonalCardBlank * 0.75);}
+    &:nth-child(10) { margin-right: ($diagonalCardBlank * 0.25);}
+    // 5 line
+    &:nth-child(11) { margin-left: ($diagonalCardBlank * 0.3);}
+    &:nth-child(13) { margin-right: ($diagonalCardBlank * 0.7);}
+    // 6 line
+    &:nth-child(14) { margin-left: ($diagonalCardBlank * 0.5);}
+    // &:nth-child(17) { margin-right: ($diagonalCardBlank * 0.5);}
+    // 7 line
+    // &:nth-child(18) { margin-left: ($diagonalCardBlank * 1);}
+  }
+}
+// PC
+@media (min-aspect-ratio: 1 / 1) {
+  .card {
+    flex-basis: $diagonalCardWidth;
+    height: ($diagonalCardWidth * 0.56);
+    margin: 0.8vw;
+    // 1 line
+    &:nth-child(3) { margin-right: ($diagonalCardBlank * 2);}
+    // 2 line
+    &:nth-child(4) { margin-left: ($diagonalCardBlank * 0.5);}
+    &:nth-child(6) { margin-right: ($diagonalCardBlank * 1.5);}
+    // 3 line
+    &:nth-child(7) { margin-left: ($diagonalCardBlank * 0.25);}
+    &:nth-child(10) { margin-right: ($diagonalCardBlank * 0.75);}
+    // 4 line
+    &:nth-child(11) { margin-left: ($diagonalCardBlank * 0.75);}
+    &:nth-child(14) { margin-right: ($diagonalCardBlank * 0.25);}
+    // 5 line
+    &:nth-child(15) { margin-left: ($diagonalCardBlank * 0.5);}
+    &:nth-child(18) { margin-right: ($diagonalCardBlank * 0.5);}
+    // 6 line
+    &:nth-child(19) { margin-left: ($diagonalCardBlank * 0.75);}
+    &:nth-child(22) { margin-right: ($diagonalCardBlank * 0.25);}
+    // 7 line
+    &:nth-child(23) { margin-left: ($diagonalCardBlank * 0.5);}
   }
 }
 
