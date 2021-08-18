@@ -10,6 +10,7 @@
     "glob": "^7.1.7",
     "gray-matter": "^4.0.3",
     "sass": "^1.35.2",
+    "stylus": "^0.54.8",
     "vitepress": "^0.13.2"
   },
   "scripts": {

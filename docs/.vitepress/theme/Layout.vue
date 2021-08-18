@@ -57,7 +57,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="stylus">
 body {
   background: #e0e0e0;
   margin: 0;
@@ -78,11 +78,11 @@ body {
   overflow: hidden;
 }
 // カード配置の調整
-$diagonalWidth: 80vw;
-$diagonalCol: 5;
-$diagonalCardMargin: 1vw;
-$diagonalCardWidth: ($diagonalWidth / $diagonalCol - $diagonalCardMargin * 2);
-$diagonalCardBlank: $diagonalWidth / $diagonalCol;
+$diagonalWidth = 80vw
+$diagonalCol = 5
+$diagonalCardMargin = 1vw
+$diagonalCardWidth = (($diagonalWidth / $diagonalCol) - $diagonalCardMargin * 2)
+$diagonalCardBlank = $diagonalWidth / $diagonalCol
 
 .diagonal {
   display: flex;
@@ -100,7 +100,7 @@ $diagonalCardBlank: $diagonalWidth / $diagonalCol;
   flex-shrink: 0;
   flex-grow: 0;
   width: 100%;
-  height: ($diagonalCardWidth / 2);
+  height: ($diagonalCardWidth * 0.56);
   // margin: 0;
   margin: 0.8vw;
   padding: 5px 15px;
