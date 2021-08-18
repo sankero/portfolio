@@ -4,7 +4,7 @@
   <section class="container">
     <div class="diagonal">
       <template v-for="(n, i) in 25" :key="n">
-        <a v-if="workList[i]" class="card" :href="workList[i].href" @click="showWorkPost" :style="workList[i].thumbnail">
+        <a v-if="workList[i]" class="card" :href="workList[i].href" :style="workList[i].thumbnail">
           <h3 class="card-title">{{workList[i].title}}</h3>
           <time class="card-date">{{workList[i].date}}</time>
         </a>
@@ -22,7 +22,7 @@
 
 <script lang="ts">
 import modal from '../components/modal.vue'
-import { ref, computed, watch } from 'vue'
+import { computed } from 'vue'
 import { useSiteData, useRoute } from 'vitepress'
 import dayjs from 'dayjs';
 
@@ -31,37 +31,27 @@ export default {
     modal
   },
   setup (props, context) {
-    // モーダル表示（仕事ページはモーダルで表示する）
-    const showModal = ref(window.location.pathname !== '/')
-
     // 仕事一覧
-    const workList = useSiteData().value.customData.workList.map(obj => {
-      return {
-        title: obj.data.title,
-        date: dayjs(obj.data.date).format('YYYY.MM'),
-        href: obj.href,
-        thumbnail: `background-image: url(/works/img/${obj.key}.webp);`
-      }
+    const workList = computed(() => {
+      return useSiteData().value.customData.workList.map(obj => {
+        return {
+          title: obj.data.shortTitle,
+          date: dayjs(obj.data.date).format('YYYY.MM'),
+          href: obj.href,
+          thumbnail: `background-image: url(/works/img/${obj.key}.webp);`
+        }
+      })
     })
 
-    // 仕事ページ表示
-    const showWorkPost = () => {
-      showModal.value = true
-    }
-
-    // ページ遷移を監視
+    // モーダル表示（仕事ページはモーダルで表示する）
     const route = useRoute()
-    watch(() => route.path,
-      () => {
-        console.log(route)
-        showModal.value = !(route.path === '/')
-      }
-    )
+    const showModal = computed(() => {
+      return !(route.path === '/')
+    })
 
     return {
       showModal,
-      workList,
-      showWorkPost
+      workList
     }
   }
 }
@@ -76,11 +66,10 @@ body {
   font-weight: 200;
 }
 .title {
-  font-family: 'Kanit', sans-serif;
   position: fixed;
   top: 1em;
   left: 1em;
-  font-size: 7vw;
+  font-size: 6vw;
   padding: 0;
   margin: 0;
   line-height: 1;
@@ -136,7 +125,7 @@ $diagonalCardBlankMobile = $diagonalWidthMobile / $diagonalColMobile
 }
 .card {
   color: #FFF;
-  text-shadow: 1px 1px 6px #333;
+  text-shadow: 1px 1px 1px #555;
   flex-shrink: 0;
   flex-grow: 0;
   width: 100%;
@@ -153,6 +142,7 @@ $diagonalCardBlankMobile = $diagonalWidthMobile / $diagonalColMobile
   background-blend-mode:lighten;
   box-shadow: #BBB 6px 6px 2px;
   cursor: pointer;
+  overflow: hidden;
   // Mobile
   flex-basis: $diagonalCardWidthMobile;
   height: ($diagonalCardWidthMobile * 0.56);
@@ -167,6 +157,9 @@ $diagonalCardBlankMobile = $diagonalWidthMobile / $diagonalColMobile
     padding: 5px;
     font-size: 1vw;
     visibility: hidden;
+    opacity: 0;
+    transform: translateY(0em);
+    transition-duration: 0.3s;
   }
   &-date {
     position: absolute;
@@ -182,7 +175,12 @@ $diagonalCardBlankMobile = $diagonalWidthMobile / $diagonalColMobile
     transform: translate3d(-3px, -3px, 0px);
     box-shadow: #aaa 9px 9px 2px;
     .card-title {
+      background: rgba(0,0,0,0.25);
+      box-sizing: border-box;
       visibility: visible;
+      // transform: translateY(4.5em);
+      text-shadow: #333 2px 2px 2px;
+      opacity: 1;
     }
   }
   &:active {
@@ -194,11 +192,6 @@ $diagonalCardBlankMobile = $diagonalWidthMobile / $diagonalColMobile
   }
 }
 // Mobile
-@media (max-aspect-ratio: 2 / 3) {
-  .card {
-  }
-}
-// Tablet
 @media (max-aspect-ratio: 1 / 1) {
   .card {
     // 1 line
