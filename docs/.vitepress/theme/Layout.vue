@@ -1,5 +1,58 @@
 <template>
-  <h1 class="title">taga.works</h1>
+  <header class="header">
+    <h1 class="title">taga.works</h1>
+    <nav class="nav">
+      <!-- TODO: ロジック化 -->
+      <h3>Programming language</h3>
+      <ul>
+        <li>
+          <label>
+            <input type="checkbox" value="PHP" v-model="tagFilter">
+            PHP
+          </label>
+        </li>
+        <li>
+          <label>
+            <input type="checkbox" value="Javascript" v-model="tagFilter">
+            Javascript
+          </label>
+        </li>
+      </ul>
+      <h3>Framework</h3>
+      <ul>
+        <li>
+          <label>
+            <input type="checkbox" value="Nuxt.js" v-model="tagFilter">
+            Nuxt.js
+          </label>
+        </li>
+        <li>
+          <label>
+            <input type="checkbox" value="Vue.js" v-model="tagFilter">
+            Vue.js
+          </label>
+        </li>
+        <li>
+          <label>
+            <input type="checkbox" value="React" v-model="tagFilter">
+            React
+          </label>
+        </li>
+        <li>
+          <label>
+            <input type="checkbox" value="WordPress" v-model="tagFilter">
+            WordPress
+          </label>
+        </li>
+        <li>
+          <label>
+            <input type="checkbox" value="Laravel" v-model="tagFilter">
+            Laravel
+          </label>
+        </li>
+      </ul>
+    </nav>
+  </header>
   <!-- works -->
   <section class="container">
     <div class="diagonal">
@@ -10,6 +63,7 @@
         </a>
         <div v-else class="card card-blank"></div>
       </template>
+      
     </div>
   </section>
   <transition name="modal">
@@ -19,12 +73,13 @@
     <div>showModal: {{showModal}}</div>
     <div @click="sortChange">sort.key: {{sort.key}}</div>
     <div @click="ascChenge">sort.asc: {{sort.asc}}</div>
+    <div>tagFilter: {{tagFilter}}</div>
   </div>
 </template>
 
 <script lang="ts">
 import modal from '../components/modal.vue'
-import { computed, reactive } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { useSiteData, useRoute } from 'vitepress'
 import dayjs from 'dayjs';
 
@@ -38,6 +93,7 @@ export default {
       key: 'date',
       asc: false
     })
+    const tagFilter = ref([])
 
     /**
      * ソートキー変更
@@ -55,8 +111,20 @@ export default {
     /**
      * 制作物一覧
      */
+    const tagFiltering = (tags) => {
+      let flg = false
+      tags.forEach(tag => {
+        if (tagFilter.value.includes(tag)) flg = true
+      })
+      return flg
+    }
+
+    const maxItem = 25 // 表示する項目数
     const workList = computed(() => {
       return useSiteData().value.customData.workList.map(obj => {
+        // フィルタ
+        if (tagFilter.value?.length && !obj.data.tags?.length) return
+        if (tagFilter.value?.length && obj.data.tags?.length && !tagFiltering(obj.data.tags)) return
         return {
           title: obj.data.shortTitle,
           date: dayjs(obj.data.date).format('YYYY.MM'),
@@ -64,9 +132,9 @@ export default {
           thumbnail: `background-image: url(/works/img/${obj.key}.webp);`
         }
       }).sort((a, b) => {
-        const ret = new Date(b[sort.key]) - new Date(a[sort.key])
+        const ret = new Date(b[sort.key]).getTime() - new Date(a[sort.key]).getTime()
         return sort.asc ? ret : -ret
-      })
+      }).splice(0, maxItem)
     })
 
     /**
@@ -79,6 +147,7 @@ export default {
 
     return {
       sort,
+      tagFilter,
       showModal,
       workList,
       sortChange,
@@ -96,10 +165,12 @@ body {
   font-family: "Helvetica Neue", "Helvetica", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Arial", "Yu Gothic", "Meiryo", sans-serif;
   font-weight: 200;
 }
-.title {
+.header {
   position: fixed;
-  top: 1em;
-  left: 1em;
+  top: 3em;
+  left: 3em;
+}
+.title {
   font-size: 6vw;
   padding: 0;
   margin: 0;
