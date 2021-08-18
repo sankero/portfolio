@@ -12,9 +12,7 @@
       </template>
     </div>
   </section>
-  <modal v-show="showModal" :handleClose="() => showModal = false">
-    <Content />
-  </modal>
+  <modal v-show="showModal" :handleClose="() => showModal = false" />
   <pre class="debug">
     showModal: {{showModal}}
   </pre>
@@ -62,6 +60,8 @@ export default {
 body {
   background: #e0e0e0;
   margin: 0;
+  font-family: "Helvetica Neue", "Helvetica", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Arial", "Yu Gothic", "Meiryo", sans-serif;
+  font-weight: 200;
 }
 .title {
   position: fixed;
@@ -96,27 +96,30 @@ $diagonalCardBlank = $diagonalWidth / $diagonalCol
   list-style: none;
 }
 .card {
-  color: #333;
+  color: #FFF;
+  text-shadow: 1px 1px 6px #333;
   flex-basis: $diagonalCardWidth;
   flex-shrink: 0;
   flex-grow: 0;
   width: 100%;
   height: ($diagonalCardWidth * 0.56);
-  // margin: 0;
   margin: 0.8vw;
   padding: 5px 15px;
   box-sizing: border-box;
   position: relative;
   /* Glassmorphism */
-  background: rgba(255,255,255,0.1);
+  background-color: rgba(255,255,255,0.1);
   border-radius: 10px;
   border: 1px solid rgba(255,255,255,0.2);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  box-shadow: #666 1px 1px 3px;
   background-size: cover;
-  transition-duration: 0.5s;
+  transition-duration: 0.3s;
+  background-blend-mode:lighten;
   cursor: pointer;
+  // box-shadow: #666 1px 1px 3px;
+  box-shadow: #BBB 6px 6px 2px;
+  // box-shadow: rgb(0 0 0 / 40%) 6px 6px 10px;
   &-title {
     position: absolute;
     bottom: 0;
@@ -125,12 +128,17 @@ $diagonalCardBlank = $diagonalWidth / $diagonalCol
     margin: 0;
     padding: 5px;
     font-size: 1vw;
+    visibility: hidden;
   }
   &-date {
     position: absolute;
-    top: 0;
+    top: 0.5em;
     right: 1em;
     font-size: 0.5vw;
+    line-height: 1;
+    border-bottom: 1px solid #F66;
+    border-image: linear-gradient(to right, #c21500 0%, #ffc500 100%);
+    border-image-slice: 1;
   }
   // 1 line
   &:nth-child(3) { margin-right: ($diagonalCardBlank * 2);}
@@ -152,9 +160,23 @@ $diagonalCardBlank = $diagonalWidth / $diagonalCol
   // 7 line
   &:nth-child(23) { margin-left: ($diagonalCardBlank * 0.5);}
   &:hover {
-    background: rgba(255,255,255,0.4);
+    /*
+    background-color: rgba(255,255,255,0.4);
     transform: translate3d(-6px, -6px, 0px);
     box-shadow: rgb(0 0 0 / 40%) 6px 6px 10px;
+    */
+    transform: translate3d(-3px, -3px, 0px);
+    box-shadow: #aaa 9px 9px 2px;
+    .card-title {
+      visibility: visible;
+    }
+  }
+  &:active {
+    transform: translate3d(3px, 3px, 0px);
+    box-shadow: #bbb 3px 3px 2px, #FFA 3px 3px 20px;
+    .card-title {
+      visibility: visible;
+    }
   }
 }
 // 確認用

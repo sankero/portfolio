@@ -1,8 +1,29 @@
 <template>
   <div class="modal">
-    <div class="modal-bg" @click="onClose" />
-    <article class="modal-innr">
-      <slot />
+    <a class="modal-bg" href="/" @click="onClose" />
+    <article class="modal-innr md">
+      <header class="md-header">
+        <h1 class="md-title">{{$page.title}}</h1>
+        <!-- a v-if="$page.frontmatter.url" class="md-url" :href="$page.frontmatter.url">{{$page.frontmatter.url}}</a -->
+        <ul class="md-tags" v-if="$page.frontmatter.tags">
+          <li v-for="name in $page.frontmatter.tags" :key="name">{{name}}</li>
+        </ul>
+      </header>
+      <div class="md-mv" v-if="$page.frontmatter.key">
+        <img class="md-mv-img" src="/works/img/acamal_m.webp">
+      </div>
+      <main class="md-content">
+        <Content />
+      </main>
+      <footer class="md-footer">
+        <div v-if="$page.frontmatter.package">
+          <h2 class="md-footer-headline">Package</h2>
+          <ul class="md-tags">
+            <li v-for="name in $page.frontmatter.package" :key="name" class="neumo-btn">{{name}}</li>
+          </ul>
+        </div>
+        <a class="modal-close" href="/" @click="onClose">Close</a>
+      </footer>
     </article>
   </div>
 </template>
@@ -37,38 +58,122 @@ export default {
     &-bg {
       width: 100%;
       height: 100%;
-      position: absolute;
+      position: fixed;
+      z-index: -1;
     }
     &-innr {
-      background: rgba(255,255,255,0.9);
       width: 90%;
       min-width: 800px;
       max-width: 960px;
       min-height: 420px;
       margin: 5vh auto;
-      padding: 20px 40px;
+      padding: 5em 3em 3em;
       box-sizing: border-box;
       z-index: 1;
-      border-radius: 30px;
       box-shadow: 30px 30px 20px #222;
-
-      /* markdown style */
-      .header-anchor {
-        display: none;
+      background: rgba(255,255,255,0.6);
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.2);
+      backdrop-filter: blur(5px);
+    }
+    &-close {
+      padding: 0.2em 0.8em;
+      border-radius: 50px;
+      background: #c3c3c3;
+      box-shadow: 6px 6px 6px #999, -3px -3px 6px #eee;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
+      color: #000;
+      margin-top: 2em;
+      user-select: none;
+      &:active {
+        box-shadow: inset 3px 3px 4px #999999, inset -3px -3px 4px #cfcfcf;
       }
-      h1 {
-        position: relative;
-        padding: 0.25em 0;
+    }
+  }
+  /* markdown style */
+  .md {
+    &-header {
+      margin-bottom: 3em;
+      text-align: center;
+    }
+    &-url {
+      color: #444;
+      display: block;
+      font-size: 0.8em;
+      text-decoration: none;
+    }
+    &-title {
+      font-size: 1.6em;
+      font-weight: 200;
+      margin: 0;
+    }
+    &-tags {
+      display: flex;
+      list-style: none;
+      justify-content: center;
+      margin: 0;
+      padding-left: 0;
+      li {
+        margin: 0 0.2em;
+        padding: 0.2em 0.5em;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        font-size: 0.7em;
+        color: #666;
       }
-      h1:after {
-        content: "";
-        display: block;
-        height: 4px;
-        background: -webkit-linear-gradient(to right, rgb(230, 90, 90), transparent);
-        background: linear-gradient(to right, rgb(230, 90, 90), transparent);
+    }
+    &-mv {
+      text-align: center;
+      margin-bottom: 3em;
+    }
+    &-content {
+      line-height: 1.8;
+      h2 {
+        text-align: center;
+        font-weight: normal;
       }
       img {
         max-width: 100%;
+      }
+      // 引用
+      blockquote {
+        font-size: 0.8em;
+        position: relative;
+        padding: 0.2em 1em;
+        box-sizing: border-box;
+        font-style: italic;
+        background: rgba(0,0,0, 0.1);
+        &:before {
+          color: #cfcfcf;
+          font-size: 2em;
+          font-weight: bold;
+          color: #CCC;
+          line-height: 0.6;
+          content: open-quote;
+          display: block;
+          transform: translateY(0.4em);
+        }
+        p {
+          padding-left: 1em;
+          line-height: 1.2;
+        }
+        cite {
+          display: block;
+          text-align: right;
+        }
+      }
+    }
+    .header-anchor {
+      display: none;
+    }
+    &-footer {
+      text-align: center;
+      &-headline {
+        font-weight: 200;
+        margin: 1em 0 0.5em;
       }
     }
   }
