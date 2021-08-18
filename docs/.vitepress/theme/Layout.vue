@@ -3,16 +3,13 @@
   <!-- works -->
   <section class="container">
     <div class="diagonal">
-      <a
-        v-for="post in workList"
-        :key="post.href"
-        class="card"
-        :href="post.href"
-        @click="showWorkPost"
-      >
-        <h3 class="card-title">{{post.title}}</h3>
-        <time class="card-date">{{post.date}}</time>
-      </a>
+      <template v-for="n in 25" :key="n">
+        <a v-if="workList[n]" class="card" :href="workList[n].href" @click="showWorkPost">
+          <h3 class="card-title">{{workList[n].title}}</h3>
+          <time class="card-date">{{workList[n].date}}</time>
+        </a>
+        <div v-else class="card card-blank">B</div>
+      </template>
     </div>
   </section>
   <modal v-if="showModal" :handleClose="() => showModal = false">
@@ -67,35 +64,45 @@ body {
 }
 .title {
   position: fixed;
-  top: 20%;
-  left: 60px;
-  font-size: 140px;
+  top: 6vh;
+  left: 8vh;
+  font-size: 12vw;
   padding: 0;
   margin: 0;
 }
 .container {
   height: 100vh;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: flex-end;
   overflow: hidden;
 }
+// カード配置の調整
+$diagonalWidth: 80vw;
+$diagonalCol: 5;
+$diagonalCardMargin: 1vw;
+$diagonalCardWidth: ($diagonalWidth / $diagonalCol - $diagonalCardMargin * 2);
+$diagonalCardBlank: $diagonalWidth / $diagonalCol;
+
 .diagonal {
   display: flex;
   flex-wrap: wrap;
-  max-width: 600px;
-  transform-origin: center left;
-  transform: skew(-35deg, 20deg);
+  width: 100%;
+  max-width: $diagonalWidth;
+  transform-origin: center right;
+  transform: skew(-35deg, 20deg) translate(40%, 20%);
+  transition-delay: 1s;
   list-style: none;
 }
 .card {
   color: #333;
-  flex-basis: 160px;
+  flex-basis: $diagonalCardWidth;
   flex-shrink: 0;
   flex-grow: 0;
-  width: 160px;
-  height: 120px;
-  margin: 8px;
+  width: 100%;
+  height: ($diagonalCardWidth / 2);
+  // margin: 0;
+  margin: 0.8vw;
   padding: 5px 15px;
   box-sizing: border-box;
   position: relative;
@@ -115,17 +122,33 @@ body {
     width: 100%;
     margin: 0;
     padding: 5px;
-    font-size: 14px;
+    font-size: 1.5vw;
   }
   &-date {
     position: absolute;
     top: 0;
     right: 1em;
-    font-size: 8px;
+    font-size: 1vw;
   }
-  &:nth-child(4) { margin-left: 80px;}
-  &:nth-child(7) { margin-left: 40px;}
-  &:nth-child(10) { margin-left: -20px;}
+  // 1 line
+  &:nth-child(3) { margin-right: ($diagonalCardBlank * 2);}
+  // 2 line
+  &:nth-child(4) { margin-left: ($diagonalCardBlank * 0.5);}
+  &:nth-child(6) { margin-right: ($diagonalCardBlank * 1.5);}
+  // 3 line
+  &:nth-child(7) { margin-left: ($diagonalCardBlank * 0.25);}
+  &:nth-child(10) { margin-right: ($diagonalCardBlank * 0.75);}
+  // 4 line
+  &:nth-child(11) { margin-left: ($diagonalCardBlank * 0.75);}
+  &:nth-child(14) { margin-right: ($diagonalCardBlank * 0.25);}
+  // 5 line
+  &:nth-child(15) { margin-left: ($diagonalCardBlank * 0.5);}
+  &:nth-child(18) { margin-right: ($diagonalCardBlank * 0.5);}
+  // 6 line
+  &:nth-child(19) { margin-left: ($diagonalCardBlank * 0.75);}
+  &:nth-child(22) { margin-right: ($diagonalCardBlank * 0.25);}
+  // 7 line
+  &:nth-child(23) { margin-left: ($diagonalCardBlank * 0.5);}
   &:hover {
     background: rgba(255,255,255,0.4);
     transform: translate3d(-6px, -6px, 0px);
