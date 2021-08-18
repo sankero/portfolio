@@ -79,7 +79,7 @@ export default {
       },
       {
         title: 'others',
-        tags: ['WordPress', 'Laravel', 'docker', 'オリジナルテーマ', 'jQuery']
+        tags: ['WordPress', 'docker', 'オリジナルテーマ', 'jQuery']
       }
     ]
 
