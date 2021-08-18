@@ -49,6 +49,7 @@ export default {
     background: rgba(0,0,0,0.7);
     overflow: scroll;
     font-size: 20px;
+    z-index: 5;
     &-bg {
       width: 100%;
       height: 100%;

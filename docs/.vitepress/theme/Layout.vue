@@ -1,13 +1,13 @@
 <template>
-  <header class="header">
+  <header class="header" :class="{'portrait': portrait}">
     <div class="header-innr">
       <h1 class="title">taga.works</h1>
       <div class="header-icons">
-        <filterIcon />
+        <filterIcon :class="{'enable': tagFilter?.length, 'on': filterToggle}" @click="filterToggle = !filterToggle" />
         <menuIcon />
       </div>
     </div>
-    <nav class="tag-filter">
+    <nav class="tag-filter" :class="{'open': filterToggle}">
       <ul>
         <li v-for="obj in tagList" :key="obj.title">
           <h5 class="tag-filter-title">{{obj.title}}</h5>
@@ -42,6 +42,8 @@
     <div @click="sortChange">sort.key: {{sort.key}}</div>
     <div @click="ascChenge">sort.asc: {{sort.asc}}</div>
     <div>tagFilter: {{tagFilter}}</div>
+    <div>portrait: {{portrait}}</div>
+    <div>filterToggle: {{filterToggle}}</div>
   </div>
 </template>
 
@@ -49,7 +51,7 @@
 import modal from '../components/modal.vue'
 import filterIcon from '../components/icon/filter.vue'
 import menuIcon from '../components/icon/menu.vue'
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, onMounted, onUnmounted } from 'vue'
 import { useSiteData, useRoute } from 'vitepress'
 import dayjs from 'dayjs';
 
@@ -66,6 +68,9 @@ export default {
       asc: false
     })
     const tagFilter = ref([])
+
+    // トグル
+    const filterToggle = ref(false)
 
     // タグリスト
     const tagList = [
@@ -133,12 +138,30 @@ export default {
       return !(route.path === '/')
     })
 
+    /**
+     * ポートレート判定
+     * アスペクト比で画面の縦横を判別します。
+     */
+    const portrait = ref(true)
+    onMounted(() => {
+      window.addEventListener('resize', calculateWindowWidth)
+      calculateWindowWidth()
+    })
+    onUnmounted(() => {
+      window.removeEventListener('resize', calculateWindowWidth)
+    })
+    const calculateWindowWidth = () => {
+      portrait.value = window.innerWidth > window.innerHeight
+    }
+
     return {
       sort,
       tagFilter,
       showModal,
       workList,
       tagList,
+      portrait,
+      filterToggle,
       sortChange,
       ascChenge
     }
@@ -167,11 +190,30 @@ body {
       height: 1.5em;
       padding: 0.2em;
       margin-left: 0.5em;
+      cursor: pointer;
+      position: relative;
+      background-color: #E6E6E6;
+      box-shadow: 6px 6px 6px #bbb, -3px -3px 6px #f3f3f3;
+      border-radius: 12px;
+      padding: 6px;
+      &:hover {
+        background: linear-gradient(145deg, #cfcfcf, #f6f6f6);
+        box-shadow:  3px 3px 4px #c4c4c4, -3px -3px 4px #ffffff;
+      }
+      &:active,
+      &.on {
+        background-color: #c7c7c7;
+        box-shadow: inset 3px 3px 4px #999999, inset -3px -3px 4px #cfcfcf;
+      }
+      &.enable {
+        fill: #F00;
+      }
     }
   }
   @media (max-aspect-ratio: 1 / 1) {
     width: 100%;
-    background: linear-gradient(0deg, rgba(128,128,128,0) 0%, rgba(128,128,128,1) 100%);
+    background: linear-gradient(0deg, rgba(224,224,224,0) 0%, rgba(224,224,224,0.4) 25%, rgba(224,224,224,0.6) 100%);
+    backdrop-filter: blur(2px);
     &-innr {
       display: flex;
       justify-content: space-between;
@@ -190,11 +232,24 @@ body {
 .tag-filter {
   margin-top: 3vw;
   line-height: 1;
-  font-size: 1vw;
+  font-size: 5vw;
+  display: none;
+  @media (max-aspect-ratio: 1 / 1) {
+    padding-bottom: 5em;
+  }
+  @media (min-aspect-ratio: 1 / 1) {
+    display: block;
+    font-size: 1.2vw;
+  }
+  &.open {
+    display: block;
+  }
   ul {
     list-style: none;
-    max-width: 30vw;
     padding-left: 1em;
+    @media (min-aspect-ratio: 1 / 1) {
+      max-width: 30vw;
+    }
   }
   &-group {
     display: flex;
@@ -228,6 +283,15 @@ body {
     text-decoration: none;
     color: #000;
     user-select: none;
+    cursor: pointer;
+    &:hover {
+      background: linear-gradient(145deg, #cfcfcf, #f6f6f6);
+      box-shadow:  3px 3px 4px #c4c4c4, -3px -3px 4px #ffffff;
+    }
+    &:active {
+      background-color: #c7c7c7;
+      box-shadow: inset 3px 3px 4px #999999, inset -3px -3px 4px #cfcfcf;
+    }
   }
 }
 
