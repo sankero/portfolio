@@ -56,14 +56,12 @@
   <!-- works -->
   <section class="container">
     <div class="diagonal">
-      <template v-for="(n, i) in 25" :key="n">
-        <a v-if="workList[i]" class="card" :href="workList[i].href" :style="workList[i].thumbnail">
-          <h3 class="card-title">{{workList[i].title}}</h3>
-          <time class="card-date">{{workList[i].date}}</time>
+      <template v-for="(item, i) in workList" :key="i">
+        <a v-if="item" class="card" :href="item.href" :style="item.thumbnail">
+          <h3 class="card-title">{{item.title}}</h3>
+          <time class="card-date">{{item.date}}</time>
         </a>
-        <div v-else class="card card-blank"></div>
-      </template>
-      
+      </template> 
     </div>
   </section>
   <transition name="modal">
@@ -206,15 +204,15 @@ $diagonalCardBlankMobile = $diagonalWidthMobile / $diagonalColMobile
   transition-delay: 1s;
   // Mobile and Tablet
   width: $diagonalWidthMobile;
-  transform-origin: center right;
-  transform: skew(-35deg, 20deg) translate(15%, 15%);
+  transform-origin: center left;
+  transform: skew(-35deg, 20deg) translate(5%, -5%);
 }
 // Tablet
 @media (min-aspect-ratio: 2 / 3) {
   .diagonal {
     width: $diagonalWidthMobile;
-    transform-origin: center right;
-    transform: skew(-35deg, 20deg) translate(35%, 15%);
+    transform-origin: center left;
+    transform: skew(-35deg, 20deg) translate(10%, -5%);
   }
 }
 // PC
