@@ -15,14 +15,16 @@
   <transition name="modal">
     <modal v-if="showModal" :showFlg="showModal" />
   </transition>
-  <pre class="debug">
-    showModal: {{showModal}}
-  </pre>
+  <div class="debug">
+    <div>showModal: {{showModal}}</div>
+    <div @click="sortChange">sort.key: {{sort.key}}</div>
+    <div @click="ascChenge">sort.asc: {{sort.asc}}</div>
+  </div>
 </template>
 
 <script lang="ts">
 import modal from '../components/modal.vue'
-import { computed } from 'vue'
+import { computed, reactive } from 'vue'
 import { useSiteData, useRoute } from 'vitepress'
 import dayjs from 'dayjs';
 
@@ -31,7 +33,28 @@ export default {
     modal
   },
   setup (props, context) {
-    // 仕事一覧
+    // ソート機能
+    const sort = reactive({
+      key: 'date',
+      asc: false
+    })
+
+    /**
+     * ソートキー変更
+     */
+    const sortChange = () => {
+      sort.key = sort.key === 'date' ? 'title' : 'date'
+    }
+    /**
+     * 昇順・降順変更
+     */
+    const ascChenge = () => {
+      sort.asc = !sort.asc
+    }
+
+    /**
+     * 制作物一覧
+     */
     const workList = computed(() => {
       return useSiteData().value.customData.workList.map(obj => {
         return {
@@ -40,18 +63,26 @@ export default {
           href: obj.href,
           thumbnail: `background-image: url(/works/img/${obj.key}.webp);`
         }
+      }).sort((a, b) => {
+        const ret = new Date(b[sort.key]) - new Date(a[sort.key])
+        return sort.asc ? ret : -ret
       })
     })
 
-    // モーダル表示（仕事ページはモーダルで表示する）
+    /**
+     * モーダル表示
+     */
     const route = useRoute()
     const showModal = computed(() => {
       return !(route.path === '/')
     })
 
     return {
+      sort,
       showModal,
-      workList
+      workList,
+      sortChange,
+      ascChenge
     }
   }
 }
@@ -256,7 +287,7 @@ $diagonalCardBlankMobile = $diagonalWidthMobile / $diagonalColMobile
   left: 0;
   bottom: 0;
   font-size: 8px;
-  line-height: 0;
+  line-height: 1;
   background: rgba(0, 0, 0, 0.2);
   padding: 1em;
 }
