@@ -13,7 +13,7 @@
     </div>
   </section>
   <transition name="modal">
-    <modal v-if="showModal" :handleClose="() => showModal = false" />
+    <modal v-if="showModal" :showFlg="showModal" />
   </transition>
   <pre class="debug">
     showModal: {{showModal}}
@@ -22,8 +22,8 @@
 
 <script lang="ts">
 import modal from '../components/modal.vue'
-import { ref, computed } from 'vue'
-import { useSiteData } from 'vitepress'
+import { ref, computed, watch } from 'vue'
+import { useSiteData, useRoute } from 'vitepress'
 import dayjs from 'dayjs';
 
 export default {
@@ -48,6 +48,15 @@ export default {
     const showWorkPost = () => {
       showModal.value = true
     }
+
+    // ページ遷移を監視
+    const route = useRoute()
+    watch(() => route.path,
+      () => {
+        console.log(route)
+        showModal.value = !(route.path === '/')
+      }
+    )
 
     return {
       showModal,
@@ -183,6 +192,13 @@ $diagonalCardBlank = $diagonalWidth / $diagonalCol
       visibility: visible;
     }
   }
+}
+
+.modal-leave-active {
+  transition: opacity 1s ease-in;
+}
+.modal-leave-to {
+  opacity: 0;
 }
 
 // 確認用

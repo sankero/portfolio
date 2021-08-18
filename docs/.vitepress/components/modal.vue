@@ -1,45 +1,39 @@
 <template>
   <div class="modal">
-    <a class="modal-bg" href="/" @click="onClose" />
-    <article class="modal-innr md">
-      <header class="md-header">
-        <h1 class="md-title">{{$page.title}}</h1>
-        <!-- a v-if="$page.frontmatter.url" class="md-url" :href="$page.frontmatter.url">{{$page.frontmatter.url}}</a -->
-        <ul class="md-tags" v-if="$page.frontmatter.tags">
-          <li v-for="name in $page.frontmatter.tags" :key="name">{{name}}</li>
-        </ul>
-      </header>
-      <div class="md-mv" v-if="$page.frontmatter.key">
-        <img class="md-mv-img" src="/works/img/acamal_m.webp">
-      </div>
-      <main class="md-content">
-        <Content />
-      </main>
-      <footer class="md-footer">
-        <div v-if="$page.frontmatter.package">
-          <h2 class="md-footer-headline">Package</h2>
-          <ul class="md-tags">
-            <li v-for="name in $page.frontmatter.package" :key="name" class="neumo-btn">{{name}}</li>
+    <a class="modal-bg" href="/" />
+    <transition name="modal-innr">
+      <article v-show="showFlg" class="modal-innr md">
+        <header class="md-header">
+          <h1 class="md-title">{{$page.title}}</h1>
+          <!-- a v-if="$page.frontmatter.url" class="md-url" :href="$page.frontmatter.url">{{$page.frontmatter.url}}</a -->
+          <ul class="md-tags" v-if="$page.frontmatter.tags">
+            <li v-for="name in $page.frontmatter.tags" :key="name">{{name}}</li>
           </ul>
+        </header>
+        <div class="md-mv" v-if="$page.frontmatter.key">
+          <img class="md-mv-img" :src="`/works/img/${$page.frontmatter.key}_m.webp`">
         </div>
-        <a class="modal-close" href="/" @click="onClose">Close</a>
-      </footer>
-    </article>
+        <main class="md-content">
+          <Content />
+        </main>
+        <footer class="md-footer">
+          <div v-if="$page.frontmatter.package">
+            <h2 class="md-footer-headline">Package</h2>
+            <ul class="md-tags">
+              <li v-for="name in $page.frontmatter.package" :key="name" class="neumo-btn">{{name}}</li>
+            </ul>
+          </div>
+          <a class="modal-close" href="/">Close</a>
+        </footer>
+      </article>
+    </transition>
   </div>
 </template>
 
 <script lang="ts">
 export default {
   props: {
-    handleClose: Function
-  },
-  setup(props) {
-    const onClose = () => {
-      props.handleClose()
-    }
-    return {
-      onClose
-    }
+    showFlg: Boolean
   }
 }
 </script>
@@ -179,11 +173,14 @@ export default {
     }
   }
 
-  // TODO: modal animetion.
-  .modal-enter-active, .modal-leave-active {
-    transition: opacity 3s;
+  .modal-innr-enter-active,
+  .modal-innr-leave-active {
+    // transition-delay: 0.8s;
+    transition: opacity 0.5s ease;
   }
-  .modal-enter, .modal-leave-to {
+
+  .modal-innr-enter-from,
+  .modal-innr-leave-to {
     opacity: 0;
   }
 </style>
