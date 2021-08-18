@@ -75,6 +75,7 @@ export default {
       border-radius: 10px;
       border: 1px solid rgba(255,255,255,0.2);
       backdrop-filter: blur(5px);
+      animation: slide-skew 0.4s cubic-bezier(0.25, 1, 0.5, 1) 1 forwards;
     }
     &-close {
       padding: 0.2em 0.8em;
@@ -176,5 +177,13 @@ export default {
         margin: 1em 0 0.5em;
       }
     }
+  }
+
+  // TODO: modal animetion.
+  .modal-enter-active, .modal-leave-active {
+    transition: opacity 3s;
+  }
+  .modal-enter, .modal-leave-to {
+    opacity: 0;
   }
 </style>

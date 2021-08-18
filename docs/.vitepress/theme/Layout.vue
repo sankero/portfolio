@@ -1,5 +1,5 @@
 <template>
-  <h1 class="title">taga</h1>
+  <h1 class="title">taga.works</h1>
   <!-- works -->
   <section class="container">
     <div class="diagonal">
@@ -12,7 +12,9 @@
       </template>
     </div>
   </section>
-  <modal v-show="showModal" :handleClose="() => showModal = false" />
+  <transition name="modal">
+    <modal v-if="showModal" :handleClose="() => showModal = false" />
+  </transition>
   <pre class="debug">
     showModal: {{showModal}}
   </pre>
@@ -57,6 +59,7 @@ export default {
 </script>
 
 <style lang="stylus">
+
 body {
   background: #e0e0e0;
   margin: 0;
@@ -64,12 +67,14 @@ body {
   font-weight: 200;
 }
 .title {
+  font-family: 'Kanit', sans-serif;
   position: fixed;
-  top: 6vh;
-  left: 8vh;
-  font-size: 12vw;
+  top: 1em;
+  left: 1em;
+  font-size: 7vw;
   padding: 0;
   margin: 0;
+  line-height: 1;
 }
 .container {
   height: 100vh;
@@ -134,11 +139,11 @@ $diagonalCardBlank = $diagonalWidth / $diagonalCol
     position: absolute;
     top: 0.5em;
     right: 1em;
-    font-size: 0.5vw;
     line-height: 1;
-    border-bottom: 1px solid #F66;
-    border-image: linear-gradient(to right, #c21500 0%, #ffc500 100%);
-    border-image-slice: 1;
+    background-color: rgba(0,0,0,0.3);
+    padding: 0.1em 0.5em;
+    border-radius: 6px;
+    font-size: 0.8vw;
   }
   // 1 line
   &:nth-child(3) { margin-right: ($diagonalCardBlank * 2);}
@@ -179,6 +184,7 @@ $diagonalCardBlank = $diagonalWidth / $diagonalCol
     }
   }
 }
+
 // 確認用
 .debug {
   position: fixed;
