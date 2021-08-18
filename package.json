@@ -15,5 +15,8 @@
   "scripts": {
     "serve": "vitepress dev docs",
     "build": "vitepress build docs"
+  },
+  "dependencies": {
+    "dayjs": "^1.10.6"
   }
 }

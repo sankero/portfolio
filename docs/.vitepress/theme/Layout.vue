@@ -4,43 +4,56 @@
   <section class="container">
     <div class="diagonal">
       <a
-        v-for="post in $site.customData.workList"
+        v-for="post in workList"
         :key="post.href"
         class="card"
         :href="post.href"
         @click="showWorkPost"
       >
-        <h3 class="card-title">{{post.data.title}}</h3>
-        <time class="card-date">{{post.data.date}}</time>
+        <h3 class="card-title">{{post.title}}</h3>
+        <time class="card-date">{{post.date}}</time>
       </a>
     </div>
   </section>
   <modal v-if="showModal" :handleClose="() => showModal = false">
     <Content />
   </modal>
-  <pre>
+  <pre class="debug">
     showModal: {{showModal}}
   </pre>
 </template>
 
 <script lang="ts">
 import modal from '../components/modal.vue'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useSiteData } from 'vitepress'
+import dayjs from 'dayjs';
 
 export default {
   components: {
     modal
   },
-  setup () {
-    // data
+  setup (props, context) {
+    // モーダル表示（仕事ページはモーダルで表示する）
     const showModal = ref(window.location.pathname !== '/')
 
+    // 仕事一覧
+    const workList = useSiteData().value.customData.workList.map(obj => {
+      return {
+        title: obj.data.title,
+        date: dayjs(obj.data.date).format('YYYY.MM'),
+        href: obj.href
+      }
+    })
+
+    // 仕事ページ表示
     const showWorkPost = () => {
       showModal.value = true
     }
 
     return {
       showModal,
+      workList,
       showWorkPost
     }
   }
@@ -50,6 +63,7 @@ export default {
 <style lang="scss">
 body {
   background: #e0e0e0;
+  margin: 0;
 }
 .title {
   position: fixed;
@@ -106,7 +120,8 @@ body {
   &-date {
     position: absolute;
     top: 0;
-    right: 0;
+    right: 1em;
+    font-size: 8px;
   }
   &:nth-child(4) { margin-left: 80px;}
   &:nth-child(7) { margin-left: 40px;}
@@ -116,6 +131,16 @@ body {
     transform: translate3d(-6px, -6px, 0px);
     box-shadow: rgb(0 0 0 / 40%) 6px 6px 10px;
   }
+}
+// 確認用
+.debug {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  font-size: 8px;
+  line-height: 0;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 1em;
 }
 
 </style>
