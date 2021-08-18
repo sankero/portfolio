@@ -41,13 +41,15 @@ export default {
     }
     &-innr {
       background: rgba(255,255,255,0.9);
-      width: 100%;
+      width: 90%;
       min-width: 800px;
       max-width: 1200px;
       min-height: 420px;
       padding: 20px 40px;
       box-sizing: border-box;
       z-index: 1;
+      border-radius: 30px;
+      box-shadow: 30px 30px 20px #222;
     }
   }
 </style>

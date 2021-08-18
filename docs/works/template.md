@@ -9,3 +9,4 @@ tags: [vitepress]
 # タイトル
 
 本文…。
+![An image](./img/image.png)
