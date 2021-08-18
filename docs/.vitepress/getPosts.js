@@ -10,11 +10,13 @@ exports.getPosts = function getPosts(target = '') {
   }).map(f => {
     const src = fs.readFileSync(path.resolve(__dirname, `../../${targetDir}/${f}`), 'utf8')
     const { data, excerpt } = matter(src)
-    const href = `/${target}/${f}`
+    const key = f.slice(0, -3)
+    const href = `/${target}/${key}`
     return {
       data,
       excerpt,
-      href: href.slice(0, -3)
+      key,
+      href
     }
   })
   return mg

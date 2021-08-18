@@ -3,16 +3,16 @@
   <!-- works -->
   <section class="container">
     <div class="diagonal">
-      <template v-for="n in 25" :key="n">
-        <a v-if="workList[n]" class="card" :href="workList[n].href" @click="showWorkPost">
-          <h3 class="card-title">{{workList[n].title}}</h3>
-          <time class="card-date">{{workList[n].date}}</time>
+      <template v-for="(n, i) in 25" :key="n">
+        <a v-if="workList[i]" class="card" :href="workList[i].href" @click="showWorkPost" :style="workList[i].thumbnail">
+          <h3 class="card-title">{{workList[i].title}}</h3>
+          <time class="card-date">{{workList[i].date}}</time>
         </a>
-        <div v-else class="card card-blank">B</div>
+        <div v-else class="card card-blank"></div>
       </template>
     </div>
   </section>
-  <modal v-if="showModal" :handleClose="() => showModal = false">
+  <modal v-show="showModal" :handleClose="() => showModal = false">
     <Content />
   </modal>
   <pre class="debug">
@@ -39,7 +39,8 @@ export default {
       return {
         title: obj.data.title,
         date: dayjs(obj.data.date).format('YYYY.MM'),
-        href: obj.href
+        href: obj.href,
+        thumbnail: `background-image: url(/works/img/${obj.key}.webp);`
       }
     })
 
@@ -113,6 +114,7 @@ $diagonalCardBlank = $diagonalWidth / $diagonalCol
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   box-shadow: #666 1px 1px 3px;
+  background-size: cover;
   transition-duration: 0.5s;
   cursor: pointer;
   &-title {
@@ -122,13 +124,13 @@ $diagonalCardBlank = $diagonalWidth / $diagonalCol
     width: 100%;
     margin: 0;
     padding: 5px;
-    font-size: 1.5vw;
+    font-size: 1vw;
   }
   &-date {
     position: absolute;
     top: 0;
     right: 1em;
-    font-size: 1vw;
+    font-size: 0.5vw;
   }
   // 1 line
   &:nth-child(3) { margin-right: ($diagonalCardBlank * 2);}
