@@ -4,10 +4,7 @@
   <section class="container">
     <div class="diagonal">
       <template v-for="(item, i) in workList" :key="i">
-        <a v-if="item" class="card" :href="item.href" :style="item.thumbnail">
-          <h3 class="card-title">{{item.title}}</h3>
-          <time class="card-date">{{item.date}}</time>
-        </a>
+        <card v-if="item" :value="item" />
       </template> 
     </div>
   </section>
@@ -23,6 +20,7 @@
 </template>
 
 <script lang="ts">
+import card from '../components/Card.vue'
 import headerBar from '../components/HeaderBar.vue'
 import modal from '../components/modal.vue'
 import { computed, reactive, ref } from 'vue'
@@ -31,6 +29,7 @@ import dayjs from 'dayjs';
 
 export default {
   components: {
+    card,
     headerBar,
     modal
   },
@@ -91,8 +90,6 @@ export default {
     const showModal = computed(() => {
       return !(route.path === '/')
     })
-
-
 
     return {
       sort,
