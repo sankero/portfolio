@@ -1,7 +1,7 @@
 ---
 title: 事務メーカーウェブショップ構築・運営
 shortTitle: 事務メーカー(yahoo)
-key: jumu-store
+key: jimu-store
 description: 事務メーカーのYahoo!ショッピング店舗構築・運営
 date: 2016-04-01
 tags: [EC, Yahoo!ショッピング, Javascript]
