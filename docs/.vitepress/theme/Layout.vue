@@ -1,21 +1,35 @@
 <template>
   <header-bar v-model:tagFilter="tagFilter" />
+
   <!-- works -->
-  <section class="container">
+  <article class="container">
     <diagonal :value="workList" />
-  </section>
+  </article>
+
+  <!-- modal (content) -->
   <transition name="modal">
     <modal v-if="showModal" :showFlg="showModal" />
   </transition>
+
+  <!-- about -->
+  <transition name="about">
+    <about v-if="about" v-model:tagFilter="tagFilter" @close="about = !about" />
+  </transition>
+
+  <!-- debug -->
   <div class="debug">
     <div>showModal: {{showModal}}</div>
     <div @click="sortChange">sort.key: {{sort.key}}</div>
     <div @click="ascChenge">sort.asc: {{sort.asc}}</div>
     <div>tagFilter: {{tagFilter}}</div>
+    <div @click="about = !about">about: {{about}}</div>
   </div>
 </template>
 
 <script lang="ts">
+// Page
+import about from './About.vue'
+// Component
 import diagonal from '../components/Diagonal.vue'
 import headerBar from '../components/HeaderBar.vue'
 import modal from '../components/modal.vue'
@@ -25,6 +39,7 @@ import dayjs from 'dayjs';
 
 export default {
   components: {
+    about,
     diagonal,
     headerBar,
     modal
@@ -36,6 +51,8 @@ export default {
       asc: false
     })
     const tagFilter = ref([])
+
+    const about = ref(false)
 
     /**
      * ソートキー変更
@@ -88,6 +105,7 @@ export default {
     })
 
     return {
+      about,
       sort,
       tagFilter,
       showModal,
@@ -117,6 +135,7 @@ body {
     align-items: flex-end;
   }
 }
+
 .modal-leave-active {
   transition: opacity 0.2s ease-in;
 }

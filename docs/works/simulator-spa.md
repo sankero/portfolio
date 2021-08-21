@@ -4,7 +4,7 @@ shortTitle: 端末シュミレータ(js版)
 date: 2020-07-01
 key: simulator-spa
 description: 概要
-tags: [Electron, Node.js, Vue.js, vuetify, jQuery, Javascript]
+tags: [Electron, Node.js, Vue.js, Vuetify, jQuery, Javascript]
 ---
 
 コールセンター向けのアプリケーションとしてスマートフォンのシミュレータを制作しました。

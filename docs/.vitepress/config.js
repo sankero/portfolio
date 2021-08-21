@@ -1,7 +1,7 @@
 const { getPosts } = require('./getPosts')
 
 module.exports = {
-  title: 'taga',
+  title: 'taga.works',
   description: '',
   customData: {
     workList: getPosts('works')
