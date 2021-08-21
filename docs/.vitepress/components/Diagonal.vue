@@ -37,6 +37,7 @@ $diagonalCardBlankMobile = $diagonalWidthMobile / $diagonalColMobile
   flex-wrap: wrap;
   transition-delay: 1s;
   // Mobile and Tablet
+  // width: var(--windowHeight, $diagonalWidthMobile);
   width: $diagonalWidthMobile;
   transform-origin: center left;
   transform: skew(-35deg, 20deg) translate(5%, -5%);
@@ -77,10 +78,19 @@ $diagonalCardBlankMobile = $diagonalWidthMobile / $diagonalColMobile
   box-shadow: #BBB 6px 6px 2px;
   cursor: pointer;
   overflow: hidden;
-  // Mobile
+  // Tablet
   flex-basis: $diagonalCardWidthMobile;
   height: ($diagonalCardWidthMobile * 0.56);
-  margin: 2vw;
+  margin: 1.5vw;
+  // Mobile
+  @media (max-aspect-ratio: 5 / 9) {
+    // WARNING: 縦長端末だと列が乱れる(計算上の列数にならない)ため一旦強制的に22%に変更
+    flex-basis: 22%;
+  }
+  // PC
+  @media (min-aspect-ratio: 1 / 1) {
+    margin: 2vw;
+  }
 
   &-title {
     position: absolute;
@@ -143,13 +153,13 @@ $diagonalCardBlankMobile = $diagonalWidthMobile / $diagonalColMobile
     &:nth-child(8) { margin-left: ($diagonalCardBlank * 0.75);}
     &:nth-child(10) { margin-right: ($diagonalCardBlank * 0.25);}
     // 5 line
-    &:nth-child(11) { margin-left: ($diagonalCardBlank * 0.3);}
-    &:nth-child(13) { margin-right: ($diagonalCardBlank * 0.7);}
+    &:nth-child(11) { margin-left: ($diagonalCardBlank * 0.5);}
+    &:nth-child(13) { margin-right: ($diagonalCardBlank * 0.5);}
     // 6 line
-    &:nth-child(14) { margin-left: ($diagonalCardBlank * 0.5);}
+    // &:nth-child(14) { margin-left: ($diagonalCardBlank * 0.5);}
     // &:nth-child(17) { margin-right: ($diagonalCardBlank * 0.5);}
     // 7 line
-    // &:nth-child(18) { margin-left: ($diagonalCardBlank * 1);}
+    &:nth-child(18) { margin-left: ($diagonalCardBlank * 0.75);}
   }
 }
 // PC
