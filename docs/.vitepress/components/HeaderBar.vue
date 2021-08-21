@@ -25,10 +25,10 @@ export default {
   },
   props: {
     tagFilter: Array,
+    portrait: Boolean,
     about: Boolean
   },
   setup (props, context) {
-
     /**
      * タグリスト
      */
@@ -46,24 +46,7 @@ export default {
         tags: ['WordPress', 'docker', 'オリジナルテーマ', 'jQuery']
       }
     ]
-
-    /**
-     * ポートレート判定
-     * アスペクト比で画面の縦横を判別します。
-     */
-    const portrait = ref(true)
-    onMounted(() => {
-      window.addEventListener('resize', calculateWindowWidth)
-      calculateWindowWidth()
-    })
-    onUnmounted(() => {
-      window.removeEventListener('resize', calculateWindowWidth)
-    })
-    const calculateWindowWidth = () => {
-      portrait.value = window.innerWidth > window.innerHeight
-    }
     return {
-      portrait,
       tagList
     }
   }

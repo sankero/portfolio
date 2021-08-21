@@ -1,5 +1,5 @@
 <template>
-  <header-bar v-model:tagFilter="tagFilter"  v-model:about="about" />
+  <header-bar v-model:tagFilter="tagFilter"  v-model:about="about"  :portrait="portrait" />
 
   <!-- works -->
   <article class="container">
@@ -33,7 +33,7 @@ import about from './About.vue'
 import diagonal from '../components/Diagonal.vue'
 import headerBar from '../components/HeaderBar.vue'
 import modal from '../components/modal.vue'
-import { computed, reactive, ref } from 'vue'
+import { onMounted, onUnmounted, computed, reactive, ref } from 'vue'
 import { useSiteData, useRoute } from 'vitepress'
 import dayjs from 'dayjs';
 
@@ -45,7 +45,26 @@ export default {
     modal
   },
   setup (props, context) {
-    // ソート機能
+    /**
+     * リサイズ関連の処理
+     * ポートレート判定…アスペクト比で画面の縦横を判別します。
+     */
+    const portrait = ref(true)
+    const updateWindowsProperties = () => {
+      portrait.value = window.innerWidth > window.innerHeight
+      document.documentElement.style.setProperty('--windowHeight', `${window.innerHeight}px`)
+    }
+    onMounted(() => {
+      window.addEventListener('resize', updateWindowsProperties)
+      updateWindowsProperties()
+    })
+    onUnmounted(() => {
+      window.removeEventListener('resize', updateWindowsProperties)
+    })
+
+    /**
+     * ソート機能
+     */
     const sort = reactive({
       key: 'date',
       asc: false
@@ -106,6 +125,7 @@ export default {
 
     return {
       about,
+      portrait,
       sort,
       tagFilter,
       showModal,
@@ -118,6 +138,9 @@ export default {
 </script>
 
 <style lang="stylus">
+:root{
+  --windowHeight: 100vh;
+}
 body {
   background: #e0e0e0;
   margin: 0;
@@ -125,7 +148,7 @@ body {
   font-weight: 200;
 }
 .container {
-  height: 100vh;
+  height: var(--windowHeight, 100vh);
   overflow: hidden;
 }
 @media (min-aspect-ratio: 1 / 1) {
