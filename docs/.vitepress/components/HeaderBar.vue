@@ -3,7 +3,8 @@
     <div class="header-innr">
       <h1 class="title">taga.works</h1>
       <div class="header-icons">
-        <filterIcon :class="{'enable': tagFilter?.length, 'on': filterToggle}" @click="filterToggle = !filterToggle" />
+        <!-- <filterIcon :class="{'enable': tagFilter?.length, 'on': about}" @click="$emit('update:about', !about)" /> -->
+        <profileIcon :class="{'on': about}" @click="$emit('update:about', !about)" />
         <menuIcon />
       </div>
     </div>
@@ -12,22 +13,21 @@
 
 <script lang="ts">
 import filterIcon from '../components/icon/filter.vue'
+import profileIcon from '../components/icon/profile.vue'
 import menuIcon from '../components/icon/menu.vue'
 import { ref, onMounted, onUnmounted } from 'vue'
 
 export default {
   components: {
     filterIcon,
+    profileIcon,
     menuIcon
   },
   props: {
-    tagFilter: Array
+    tagFilter: Array,
+    about: Boolean
   },
   setup (props, context) {
-    /**
-     * トグルボタン
-     */
-    const filterToggle = ref(false)
 
     /**
      * タグリスト
@@ -63,7 +63,6 @@ export default {
       portrait.value = window.innerWidth > window.innerHeight
     }
     return {
-      filterToggle,
       portrait,
       tagList
     }

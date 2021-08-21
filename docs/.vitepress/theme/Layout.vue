@@ -1,5 +1,5 @@
 <template>
-  <header-bar v-model:tagFilter="tagFilter" />
+  <header-bar v-model:tagFilter="tagFilter"  v-model:about="about" />
 
   <!-- works -->
   <article class="container">

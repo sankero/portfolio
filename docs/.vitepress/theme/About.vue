@@ -22,7 +22,7 @@
       </section>
       <section id="tag-filter" class="about-section">
         <h3>Skill sheet</h3>
-        <nav class="tag-filter" :class="{'open': filterToggle}">
+        <nav class="tag-filter">
           <ul>
             <li v-for="obj in tagList" :key="obj.title">
               <h5 class="tag-filter-title">{{obj.title}}</h5>
@@ -198,9 +198,6 @@ export default {
   }
   @media screen and (max-width:1000px) {
     font-size: 14px;
-  }
-  &.open {
-    display: block;
   }
   ul {
     list-style: none;
