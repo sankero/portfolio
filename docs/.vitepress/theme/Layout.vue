@@ -16,6 +16,8 @@
     <about v-if="about" v-model:tagFilter="tagFilter" @close="about = !about" />
   </transition>
 
+  <footer class="footer">&copy; 2021 tagawa</footer>
+
 </template>
 
 <script lang="ts">
@@ -167,5 +169,12 @@ body {
 }
 .modal-leave-to {
   opacity: 0;
+}
+
+.footer{
+  position: absolute;
+  bottom: 1em;
+  right: 1em;
+  font-size: 0.7em;
 }
 </style>
