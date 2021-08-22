@@ -1,43 +1,44 @@
 <template>
   <article class="about">
-    <header class="about-header">
-      <h2>About Me</h2>
-      <div class="about-close" @click="onClose"><cancel-icon /></div>
-    </header>
+    <div class="about-close" @click="onClose"></div>
     <div class="about-innr">
-      <section class="about-section">
-        <picture class="about-profile-image">
-          <img src="/img/profile.webp" alt="tagawa">
-        </picture>
-        <h4>Hiroyuki Tagawa</h4>
-        <div>
-          <p>
-            長崎県生まれ。<br>
-            学生の頃のアルバイトからWeb制作に携わる。<br>
-            SIerでエンジニアとして開発業務に従事。<br>
-            2016年よりフリーランスへ転向。<br>
-            現在はフロントエンジニア、Web制作をしております。
-          </p>
-        </div>
-      </section>
-      <section id="tag-filter" class="about-section">
-        <h3>Skill sheet</h3>
-        <nav class="tag-filter">
-          <ul>
-            <li v-for="obj in tagList" :key="obj.title">
-              <h5 class="tag-filter-title">{{obj.title}}</h5>
-              <ul class="tag-filter-group">
-                <li v-for="tag in obj.tags" :key="tag">
-                  <label class="tag-filter-label">
-                    <input type="checkbox" :value="tag" v-model="tagSelector" class="tag-filter-input">
-                    <div class="tag-filter-text">{{tag}}</div>
-                  </label>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </nav>
-      </section>
+      <header class="about-header">
+        <h2>About Me</h2>
+      </header>
+      <div class="about-row">
+        <section class="about-section">
+          <picture class="about-profile-image">
+            <img src="/img/profile.webp" alt="tagawa">
+          </picture>
+          <h4>Hiroyuki Tagawa</h4>
+          <div>
+            <p>
+              長崎県生まれ。<br>
+              学生の頃のアルバイトからWeb制作に携わる。<br>
+              SIerでエンジニアとして開発業務に従事。<br>
+              2016年よりフリーランスエンジニアへ転向。
+            </p>
+          </div>
+        </section>
+        <section id="tag-filter" class="about-section">
+          <h3>Skill sheet</h3>
+          <nav class="tag-filter">
+            <ul>
+              <li v-for="obj in tagList" :key="obj.title">
+                <h5 class="tag-filter-title">{{obj.title}}</h5>
+                <ul class="tag-filter-group">
+                  <li v-for="tag in obj.tags" :key="tag">
+                    <label class="tag-filter-label">
+                      <input type="checkbox" :value="tag" v-model="tagSelector" class="tag-filter-input">
+                      <div class="tag-filter-text">{{tag}}</div>
+                    </label>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+        </section>
+      </div>
     </div>
   </article>
 </template>
@@ -101,45 +102,48 @@ export default {
 
 <style lang="stylus">
 .about {
-  margin: auto;
-  padding: 3em 1em 0;
-  background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 82%, rgba(0,0,0,0) 100%);
-  backdrop-filter: blur(2px);
   position: fixed;
-  bottom: 0;
+  top: 0;
   left: 0;
-  color: #FFF;
   width: 100%;
-  box-sizing: border-box;
-  z-index: 8;
-  overflow-y: scroll;
-  // Mobile
-  @media (max-aspect-ratio: 1 / 1) {
+  height: 100%;
+  &-close {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 100%;
+    z-index: -1;
   }
-  // PC
-  @media (min-aspect-ratio: 1 / 1) {
-    padding: 3em 3em 0;
-    overflow: hidden;
+  &-innr {
+    margin: auto;
+    padding: 3em 1em 0;
+    background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 82%, rgba(0,0,0,0) 100%);
+    backdrop-filter: blur(2px);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: #FFF;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 8;
+    overflow-y: scroll;
+    // Mobile
+    @media (max-aspect-ratio: 1 / 1) {
+      height: 100%;
+    }
+    // PC
+    @media (min-aspect-ratio: 1 / 1) {
+      padding: 3em 3em 0;
+      overflow: hidden;
+    }
   }
   &-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
-  &-close {
-    font-size: 2em;
-    width: 1em;
-    height: 1em;
-    cursor: pointer;
-    &:hover {
-      opacity: 0.8;
-    }
-    svg {
-      fill: #FFF;
-    }
-  }
-  &-innr {
+  &-row {
     max-width: 1280px;
     width: 96%;
     @media (min-aspect-ratio: 1 / 1) {
