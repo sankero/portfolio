@@ -107,6 +107,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 10;
   &-close {
     position: absolute;
     top: 0;
@@ -117,7 +118,7 @@ export default {
   }
   &-innr {
     margin: auto;
-    padding: 3em 1em 0;
+    padding: 5em 1em 0;
     background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 82%, rgba(0,0,0,0) 100%);
     backdrop-filter: blur(2px);
     position: absolute;

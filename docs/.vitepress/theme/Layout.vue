@@ -16,14 +16,6 @@
     <about v-if="about" v-model:tagFilter="tagFilter" @close="about = !about" />
   </transition>
 
-  <!-- debug -->
-  <div class="debug">
-    <div>showModal: {{showModal}}</div>
-    <div @click="sortChange">sort.key: {{sort.key}}</div>
-    <div @click="ascChenge">sort.asc: {{sort.asc}}</div>
-    <div>tagFilter: {{tagFilter}}</div>
-    <div @click="about = !about">about: {{about}}</div>
-  </div>
 </template>
 
 <script lang="ts">
@@ -46,20 +38,31 @@ export default {
   },
   setup (props, context) {
     /**
-     * リサイズ関連の処理
-     * ポートレート判定…アスペクト比で画面の縦横を判別します。
+     * イベント関連の処理
      */
     const portrait = ref(true)
+    // ポートレート判定…アスペクト比で画面の縦横を判別
     const updateWindowsProperties = () => {
       portrait.value = window.innerWidth > window.innerHeight
       document.documentElement.style.setProperty('--windowHeight', `${window.innerHeight}px`)
     }
+    // スクロールでaboutを表示・非表示
+    const onwheelEvent = (event) => {
+      if (showModal.value) return
+      if (event.deltaY > 60) {
+        about.value = true
+      } else if(event.deltaY < -60) {
+        about.value = false
+      }
+    }
     onMounted(() => {
       window.addEventListener('resize', updateWindowsProperties)
+      window.addEventListener('wheel', onwheelEvent)
       updateWindowsProperties()
     })
     onUnmounted(() => {
       window.removeEventListener('resize', updateWindowsProperties)
+      window.removeEventListener('wheel', onwheelEvent)
     })
 
     /**
@@ -165,16 +168,4 @@ body {
 .modal-leave-to {
   opacity: 0;
 }
-
-// 確認用
-.debug {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  font-size: 8px;
-  line-height: 1;
-  background: rgba(0, 0, 0, 0.2);
-  padding: 1em;
-}
-
 </style>
