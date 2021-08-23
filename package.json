@@ -1,0 +1,23 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "my portfolio site.",
+  "main": "index.js",
+  "repository": "https://github.com/sankero/portfolio.git",
+  "author": "tagawa <sankero@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "glob": "^7.1.7",
+    "gray-matter": "^4.0.3",
+    "sass": "^1.35.2",
+    "stylus": "^0.54.8",
+    "vitepress": "^0.13.2"
+  },
+  "scripts": {
+    "serve": "vitepress dev docs",
+    "build": "vitepress build docs"
+  },
+  "dependencies": {
+    "dayjs": "^1.10.6"
+  }
+}
