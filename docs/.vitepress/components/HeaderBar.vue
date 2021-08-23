@@ -79,7 +79,8 @@ export default {
     // PC
     @media (min-aspect-ratio: 1 / 1) {
       position: fixed;
-      bottom: 3em;
+      bottom: 1em;
+      font-size: 1.5em;
     }
     &-item {
       display: inline-flex;
@@ -115,10 +116,16 @@ export default {
     .arrow{
       width: 1em;
       margin-right: 0.5em;
+      animation-name: scrolldown;
+      animation-duration: 0.5s;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
+      animation-timing-function: ease-out;
     }
     .label,
     .arrow {
       display: none;
+      cursor: pointer;
       @media (min-aspect-ratio: 1 / 1) {
         display: block;
       }
@@ -146,5 +153,13 @@ export default {
   line-height: 1;
   width: 32vw;
   height: 1em;
+}
+@keyframes scrolldown {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
 }
 </style>
