@@ -1,7 +1,9 @@
 <template>
   <header class="header" :class="{'portrait': portrait}">
     <div class="header-innr">
-      <h1 class="title">taga.works</h1>
+      <h1 class="title">
+        <logo />
+      </h1>
       <nav class="header-nav">
         <!-- <filterIcon :class="{'enable': tagFilter?.length, 'on': about}" @click="$emit('update:about', !about)" /> -->
         <div class="header-nav-item" @click="$emit('update:about', !about)">
@@ -20,6 +22,7 @@ import arrowDownIcon from '../components/icon/arrowDown.vue'
 import filterIcon from '../components/icon/filter.vue'
 import profileIcon from '../components/icon/profile.vue'
 import menuIcon from '../components/icon/menu.vue'
+import logo from '../components/Logo.vue'
 import { ref, onMounted, onUnmounted } from 'vue'
 
 export default {
@@ -27,7 +30,8 @@ export default {
     arrowDownIcon,
     filterIcon,
     profileIcon,
-    menuIcon
+    menuIcon,
+    logo
   },
   props: {
     tagFilter: Array,
@@ -140,5 +144,7 @@ export default {
   padding: 0;
   margin: 0;
   line-height: 1;
+  width: 32vw;
+  height: 1em;
 }
 </style>
