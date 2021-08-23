@@ -7,7 +7,8 @@ module.exports = {
     workList: getPosts('works')
   },
   head: [
-    // ['link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Kanit:wght@500&display=swap' }],
-    ['link', { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css' }],
+    ['link', { rel: 'shortcut icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    ['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon.png', sizes: '180x180' }],
+    ['link', { rel: 'icon', type: 'image/png', href: '/android-touch-icon.png', sizes: '192x192' }]
   ]
 }
