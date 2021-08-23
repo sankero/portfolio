@@ -32,6 +32,8 @@ export default {
   -webkit-backdrop-filter: blur(5px);
   background-size: cover;
   transition-duration: 0.3s;
+  background-position: -1px -1px;
+  background-repeat: no-repeat;
   background-blend-mode:lighten;
   box-shadow: #BBB 6px 6px 8px;
   cursor: pointer;
@@ -53,11 +55,11 @@ export default {
   &:hover {
     transform: translate3d(-3px, -3px, 0px);
     box-shadow: #999 9px 9px 12px;
-    .card-title {
+    .-title {
       background: rgba(0,0,0,0.25);
       box-sizing: border-box;
       visibility: visible;
-      // transform: translateY(4.5em);
+      transform: translateY(0em);
       text-shadow: #333 2px 2px 2px;
       opacity: 1;
     }
@@ -65,7 +67,7 @@ export default {
   &:active {
     transform: translate3d(3px, 3px, 0px);
     box-shadow: #bbb 3px 3px 2px, #FFA 3px 3px 20px;
-    .card-title {
+    .-title {
       visibility: visible;
     }
   }
@@ -76,11 +78,12 @@ export default {
     left: 0;
     width: 100%;
     margin: 0;
-    padding: 5px;
-    font-size: 1vw;
+    padding: 0.5em;
+    font-size: 0.8vw;
+    font-weight: 400;
     visibility: hidden;
     opacity: 0;
-    transform: translateY(0em);
+    transform: translateY(1em);
     transition-duration: 0.3s;
   }
 
