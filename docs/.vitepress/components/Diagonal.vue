@@ -75,7 +75,7 @@ $diagonalCardBlankMobile = $diagonalWidthMobile / $diagonalColMobile
   background-size: cover;
   transition-duration: 0.3s;
   background-blend-mode:lighten;
-  box-shadow: #BBB 6px 6px 2px;
+  box-shadow: #BBB 6px 6px 8px;
   cursor: pointer;
   overflow: hidden;
   // Tablet
