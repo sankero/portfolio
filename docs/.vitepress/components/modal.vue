@@ -60,7 +60,7 @@ export default {
       width: 96%;
       max-width: 960px;
       min-height: 420px;
-      margin: 2vw auto;
+      margin: 4em auto 2vw;
       padding: 2em 1em;
       box-sizing: border-box;
       z-index: 1;
