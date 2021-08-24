@@ -1,13 +1,12 @@
-<a href="https://twitter.com/sankero_" ><img src="https://img.shields.io/twitter/follow/sankero_.svg?style=social" /> </a>
+![taga.works](docs/public/img/monitor.webp)
 
 # About 🌀
 
 My portfolio website https://taga.works/
 
-![taga.works](docs/public/img/monitor.webp)
-
 This project was created with [VitePress](https://vitepress.vuejs.org/).  
-  
+
+<a href="https://twitter.com/sankero_" ><img src="https://img.shields.io/twitter/follow/sankero_.svg?style=social" /> </a>
   
 ## Usage
 
@@ -20,3 +19,4 @@ yarn serve
 # build for production with minification to the `build` folder
 yarn build
 ```
+
