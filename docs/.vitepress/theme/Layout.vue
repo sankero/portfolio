@@ -33,7 +33,7 @@ import diagonal from '../components/Diagonal.vue'
 import headerBar from '../components/HeaderBar.vue'
 import modal from '../components/modal.vue'
 import { onMounted, onUnmounted, computed, reactive, ref } from 'vue'
-import { useSiteData, useRoute } from 'vitepress'
+import { useData, useRoute } from 'vitepress'
 import dayjs from 'dayjs';
 
 export default {
@@ -44,6 +44,7 @@ export default {
     modal
   },
   setup (props, context) {
+    const { site } = useData()
     /**
      * イベント関連の処理
      */
@@ -109,7 +110,7 @@ export default {
 
     const maxItem = 25 // 表示する項目数
     const workList = computed(() => {
-      return useSiteData().value.customData.workList.map(obj => {
+      return site.value.customData.workList.map(obj => {
         // フィルタ
         if (tagFilter.value?.length && !obj.data.tags?.length) return
         if (tagFilter.value?.length && obj.data.tags?.length && !tagFiltering(obj.data.tags)) return
