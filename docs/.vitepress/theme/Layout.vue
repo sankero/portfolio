@@ -8,7 +8,7 @@
 
   <!-- modal (content) -->
   <transition name="modal">
-    <modal v-if="showModal" :showFlg="showModal" />
+    <workModal v-if="showModal" :showFlg="showModal" />
   </transition>
 
   <!-- about -->
@@ -31,7 +31,7 @@ import about from './About.vue'
 // Component
 import diagonal from '../components/Diagonal.vue'
 import headerBar from '../components/HeaderBar.vue'
-import modal from '../components/modal.vue'
+import workModal from '../components/WorkModal.vue'
 import { onMounted, onUnmounted, computed, reactive, ref } from 'vue'
 import { useData, useRoute } from 'vitepress'
 import dayjs from 'dayjs';
@@ -41,7 +41,7 @@ export default {
     about,
     diagonal,
     headerBar,
-    modal
+    workModal
   },
   setup (props, context) {
     const { site } = useData()
