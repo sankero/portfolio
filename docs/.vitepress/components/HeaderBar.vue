@@ -1,15 +1,25 @@
 <template>
-  <header class="header" :class="{'portrait': portrait}">
+  <header
+    class="header"
+    :class="{'portrait': portrait}"
+  >
     <div class="header-innr">
       <h1 class="title">
         <logo />
       </h1>
       <nav class="header-nav">
-        <!-- <filterIcon :class="{'enable': tagFilter?.length, 'on': about}" @click="$emit('update:about', !about)" /> -->
-        <div class="header-nav-item" @click="$emit('update:about', !about)">
-          <profileIcon class="icon" :class="{'on': about}" />
+        <div
+          class="header-nav-item"
+          @click="$emit('update:about', !about)"
+        >
+          <profileIcon
+            class="icon"
+            :class="{'on': about}"
+          />
           <arrowDownIcon class="arrow" />
-          <div class="label">About</div>
+          <div class="label">
+            About
+          </div>
         </div>
         <!-- <menuIcon /> -->
       </nav>
@@ -18,48 +28,54 @@
 </template>
 
 <script lang="ts">
-import arrowDownIcon from '../components/icon/arrowDown.vue'
-import filterIcon from '../components/icon/filter.vue'
-import profileIcon from '../components/icon/profile.vue'
-import menuIcon from '../components/icon/menu.vue'
-import logo from '../components/Logo.vue'
-import { ref, onMounted, onUnmounted } from 'vue'
+import arrowDownIcon from './icon/arrowDown.vue'
+import profileIcon from './icon/profile.vue'
+import logo from './Logo.vue'
 
 export default {
   components: {
     arrowDownIcon,
-    filterIcon,
     profileIcon,
-    menuIcon,
-    logo
+    logo,
   },
   props: {
-    tagFilter: Array,
-    portrait: Boolean,
-    about: Boolean
+    tagFilter: {
+      type: Array,
+      default: () => [],
+    },
+    portrait: {
+      type: Boolean,
+      default: true,
+    },
+    about: {
+      type: Boolean,
+      default: false,
+    },
   },
-  setup (props, context) {
+  emits: ['update:about'],
+
+  setup() {
     /**
      * タグリスト
      */
     const tagList = [
       {
         title: 'Programming language',
-        tags: ['Javascript', 'PHP']
+        tags: ['Javascript', 'PHP'],
       },
       {
         title: 'Framework',
-        tags: ['Vue.js', 'Nuxt.js', 'React', 'Laravel', 'SCSS', 'stylus', 'ElementUI', 'Vuetify', 'Bootstrap']
+        tags: ['Vue.js', 'Nuxt.js', 'React', 'Laravel', 'SCSS', 'stylus', 'ElementUI', 'Vuetify', 'Bootstrap'],
       },
       {
         title: 'others',
-        tags: ['WordPress', 'docker', 'オリジナルテーマ', 'jQuery']
-      }
+        tags: ['WordPress', 'docker', 'オリジナルテーマ', 'jQuery'],
+      },
     ]
     return {
-      tagList
+      tagList,
     }
-  }
+  },
 }
 </script>
 
@@ -132,11 +148,16 @@ export default {
     }
 
   }
-  
+
   @media (max-aspect-ratio: 1 / 1) {
     width: 100%;
-    background: linear-gradient(0deg, rgba(224,224,224,0) 0%, rgba(224,224,224,0.4) 25%, rgba(224,224,224,0.6) 100%);
-    backdrop-filter: blur(2px);
+    background:
+      linear-gradient(
+        0deg,
+        rgba(224,224,224,0) 0%,
+        rgba(224,224,224,0.4) 25%,
+        rgba(224,224,224,0.6) 100%);
+      backdrop-filter: blur(2px);
     &-innr {
       display: flex;
       justify-content: space-between;

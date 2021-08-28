@@ -1,5 +1,9 @@
 <template>
-  <header-bar v-model:tagFilter="tagFilter"  v-model:about="about"  :portrait="portrait" />
+  <header-bar
+    v-model:tagFilter="tagFilter"
+    v-model:about="aboutFlg"
+    :portrait="portrait"
+  />
 
   <!-- works -->
   <article class="container">
@@ -8,51 +12,65 @@
 
   <!-- modal (content) -->
   <transition name="modal">
-    <workModal v-if="modal" :showFlg="modal" />
+    <workModal
+      v-if="modal"
+      :show-flg="modal"
+    />
   </transition>
 
   <!-- about -->
   <transition name="about">
-    <about v-if="about" v-model:tagFilter="tagFilter" @close="about = !about" />
+    <about
+      v-if="aboutFlg"
+      v-model:tagFilter="tagFilter"
+      @close="aboutFlg = !aboutFlg"
+    />
   </transition>
 
-  <footer class="footer">&copy; 2021 tagawa</footer>
+  <footer class="footer">
+    &copy; 2021 tagawa
+  </footer>
 
   <div class="bg-ani-group">
-    <div v-for="i in 8" :key="i" class="bg-ani-group-item"></div>
+    <div
+      v-for="i in 8"
+      :key="i"
+      class="bg-ani-group-item"
+    />
     <!-- <div class="bg-point-stalker"></div> -->
   </div>
-
 </template>
 
 <script lang="ts">
 // Page
+import {
+  onMounted, onUnmounted, computed, reactive, ref,
+} from 'vue'
+import { useData, useRoute } from 'vitepress'
+import dayjs from 'dayjs'
 import about from './About.vue'
 // Component
 import diagonal from '../components/Diagonal.vue'
 import headerBar from '../components/HeaderBar.vue'
 import workModal from '../components/WorkModal.vue'
-import { onMounted, onUnmounted, computed, reactive, ref } from 'vue'
-import { useData, useRoute } from 'vitepress'
-import dayjs from 'dayjs';
 
 export default {
   components: {
     about,
     diagonal,
     headerBar,
-    workModal
+    workModal,
   },
-  setup (props, context) {
+  setup() {
     const { site } = useData() // サイトデータ
-    const route = useRoute()   // ルート
-    const about = ref(false)   // about表示・非表示
+    const route = useRoute() // ルート
+    const aboutFlg = ref(false) // aboutFlg表示・非表示
     const portrait = ref(true) // 画面向き
-    const tagFilter = ref([])  // タグフィルター指定
+    const tagFilter = ref([]) // タグフィルター指定
     // ソートパラメータ
     const sort = reactive({
       key: 'date',
-      asc: false
+      asc: false,
     })
     // モーダル表示・非表示
     const modal = computed(() => !(route.path === '/'))
@@ -71,9 +89,9 @@ export default {
     const onwheelEvent = (event) => {
       if (modal.value) return
       if (event.deltaY > 60) {
-        about.value = true
-      } else if(event.deltaY < -60) {
-        about.value = false
+        aboutFlg.value = true
+      } else if (event.deltaY < -60) {
+        aboutFlg.value = false
       }
     }
 
@@ -109,7 +127,7 @@ export default {
      */
     const tagFiltering = (tags) => {
       let flg = false
-      tags.forEach(tag => {
+      tags.forEach((tag) => {
         if (tagFilter.value.includes(tag)) flg = true
       })
       return flg
@@ -119,34 +137,35 @@ export default {
      * ワークリスト
      */
     const maxItem = 25 // 表示する項目数
-    const workList = computed(() => {
-      return site.value.customData.workList.map(obj => {
-        // フィルタ
-        if (tagFilter.value?.length && !obj.data.tags?.length) return
-        if (tagFilter.value?.length && obj.data.tags?.length && !tagFiltering(obj.data.tags)) return
-        return {
-          title: obj.data.shortTitle,
-          date: dayjs(obj.data.date).format('YYYY.MM'),
-          href: obj.href,
-          thumbnail: `background-image: url(/works/img/${obj.key}.webp);`
-        }
-      }).sort((a, b) => {
-        const ret = new Date(b[sort.key]).getTime() - new Date(a[sort.key]).getTime()
-        return sort.asc ? ret : -ret
-      }).splice(0, maxItem)
-    })
+    const workList = computed(() => site.value.customData.workList.map((obj) => {
+      // フィルタ
+      if (tagFilter.value?.length && !obj.data.tags?.length) return false
+      if (
+        tagFilter.value?.length
+        && obj.data.tags?.length
+        && !tagFiltering(obj.data.tags)) return false
+      return {
+        title: obj.data.shortTitle,
+        date: dayjs(obj.data.date).format('YYYY.MM'),
+        href: obj.href,
+        thumbnail: `background-image: url(/works/img/${obj.key}.webp);`,
+      }
+    }).sort((a, b) => {
+      const ret = new Date(b[sort.key]).getTime() - new Date(a[sort.key]).getTime()
+      return sort.asc ? ret : -ret
+    }).splice(0, maxItem))
 
     return {
-      about,
+      aboutFlg,
       portrait,
       sort,
       tagFilter,
       modal,
       workList,
       sortChange,
-      ascChenge
+      ascChenge,
     }
-  }
+  },
 }
 </script>
 
@@ -159,7 +178,15 @@ export default {
 body {
   // background: #e0e0e0;
   margin: 0;
-  font-family: "Helvetica Neue", "Helvetica", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Arial", "Yu Gothic", "Meiryo", sans-serif;
+  font-family:
+    "Helvetica Neue",
+    "Helvetica",
+    "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN",
+    "Arial",
+    "Yu Gothic",
+    "Meiryo",
+    sans-serif;
   font-weight: 200;
 }
 .container {

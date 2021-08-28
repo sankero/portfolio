@@ -1,28 +1,61 @@
 <template>
   <div class="modal">
-    <a class="modal-bg" href="/" />
+    <a
+      class="modal-bg"
+      href="/"
+    />
     <transition name="modal-innr">
-      <article v-show="showFlg" class="modal-innr md">
+      <article
+        v-show="showFlg"
+        class="modal-innr md"
+      >
         <header class="md-header">
-          <h1 class="md-title">{{page.title}}</h1>
-          <ul class="md-tags" v-if="page.frontmatter.tags">
-            <li v-for="name in page.frontmatter.tags" :key="name">{{name}}</li>
+          <h1 class="md-title">
+            {{ page.title }}
+          </h1>
+          <ul
+            v-if="page.frontmatter.tags"
+            class="md-tags"
+          >
+            <li
+              v-for="name in page.frontmatter.tags"
+              :key="name"
+            >
+              {{ name }}
+            </li>
           </ul>
         </header>
-        <div class="md-mv" v-if="page.frontmatter.key">
-          <img class="md-mv-img" :src="`/works/img/${page.frontmatter.key}_m.webp`">
+        <div
+          v-if="page.frontmatter.key"
+          class="md-mv"
+        >
+          <img
+            class="md-mv-img"
+            :src="`/works/img/${page.frontmatter.key}_m.webp`"
+          >
         </div>
         <main class="md-content">
           <Content />
         </main>
         <footer class="md-footer">
           <div v-if="page.frontmatter.package">
-            <h2 class="md-footer-headline">Package</h2>
+            <h2 class="md-footer-headline">
+              Package
+            </h2>
             <ul class="md-tags">
-              <li v-for="name in page.frontmatter.package" :key="name" class="neumo-btn">{{name}}</li>
+              <li
+                v-for="name in page.frontmatter.package"
+                :key="name"
+                class="neumo-btn"
+              >
+                {{ name }}
+              </li>
             </ul>
           </div>
-          <a class="modal-close" href="/">Close</a>
+          <a
+            class="modal-close"
+            href="/"
+          >Close</a>
         </footer>
       </article>
     </transition>
@@ -34,14 +67,14 @@ import { useData } from 'vitepress'
 
 export default {
   props: {
-    showFlg: Boolean
+    showFlg: Boolean,
   },
-  setup () {
+  setup() {
     const { page } = useData()
     return {
-      page
+      page,
     }
-  }
+  },
 }
 </script>
 
