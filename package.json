@@ -19,7 +19,7 @@
   "scripts": {
     "serve": "vitepress dev docs",
     "build": "vitepress build docs",
-    "lint": "eslint 'docs/.vitepress/*.{js,vue}'"
+    "lint": "eslint 'docs/.vitepress/**/*.{js,vue}'"
   },
   "dependencies": {
     "dayjs": "^1.10.6",
