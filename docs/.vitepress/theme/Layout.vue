@@ -8,7 +8,7 @@
 
   <!-- modal (content) -->
   <transition name="modal">
-    <workModal v-if="showModal" :showFlg="showModal" />
+    <workModal v-if="modal" :showFlg="modal" />
   </transition>
 
   <!-- about -->
@@ -44,25 +44,42 @@ export default {
     workModal
   },
   setup (props, context) {
-    const { site } = useData()
+    const { site } = useData() // サイトデータ
+    const route = useRoute()   // ルート
+    const about = ref(false)   // about表示・非表示
+    const portrait = ref(true) // 画面向き
+    const tagFilter = ref([])  // タグフィルター指定
+    // ソートパラメータ
+    const sort = reactive({
+      key: 'date',
+      asc: false
+    })
+    // モーダル表示・非表示
+    const modal = computed(() => !(route.path === '/'))
+
     /**
-     * イベント関連の処理
+     * ウィンドウリサイズ時の処理
      */
-    const portrait = ref(true)
-    // ポートレート判定…アスペクト比で画面の縦横を判別
     const updateWindowsProperties = () => {
       portrait.value = window.innerWidth > window.innerHeight
       document.documentElement.style.setProperty('--windowHeight', `${window.innerHeight}px`)
     }
-    // スクロールでaboutを表示・非表示
+
+    /**
+     * aboutを表示・非表示
+     */
     const onwheelEvent = (event) => {
-      if (showModal.value) return
+      if (modal.value) return
       if (event.deltaY > 60) {
         about.value = true
       } else if(event.deltaY < -60) {
         about.value = false
       }
     }
+
+    /**
+     * マウススクロールイベント
+     */
     onMounted(() => {
       window.addEventListener('resize', updateWindowsProperties)
       window.addEventListener('wheel', onwheelEvent)
@@ -74,22 +91,12 @@ export default {
     })
 
     /**
-     * ソート機能
-     */
-    const sort = reactive({
-      key: 'date',
-      asc: false
-    })
-    const tagFilter = ref([])
-
-    const about = ref(false)
-
-    /**
      * ソートキー変更
      */
     const sortChange = () => {
       sort.key = sort.key === 'date' ? 'title' : 'date'
     }
+
     /**
      * 昇順・降順変更
      */
@@ -98,7 +105,7 @@ export default {
     }
 
     /**
-     * 制作物一覧
+     * タグ選択
      */
     const tagFiltering = (tags) => {
       let flg = false
@@ -108,6 +115,9 @@ export default {
       return flg
     }
 
+    /**
+     * ワークリスト
+     */
     const maxItem = 25 // 表示する項目数
     const workList = computed(() => {
       return site.value.customData.workList.map(obj => {
@@ -126,20 +136,12 @@ export default {
       }).splice(0, maxItem)
     })
 
-    /**
-     * モーダル表示
-     */
-    const route = useRoute()
-    const showModal = computed(() => {
-      return !(route.path === '/')
-    })
-
     return {
       about,
       portrait,
       sort,
       tagFilter,
-      showModal,
+      modal,
       workList,
       sortChange,
       ascChenge
