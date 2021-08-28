@@ -7,17 +7,25 @@
   "author": "tagawa <sankero@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "glob": "^7.1.7",
-    "gray-matter": "^4.0.3",
+    "@typescript-eslint/eslint-plugin": "^4.29.3",
+    "@typescript-eslint/parser": "^4.29.3",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-vue": "^7.17.0",
     "sass": "^1.38.1",
-    "stylus": "^0.54.8",
-    "vitepress": "^0.16.1"
+    "stylus": "^0.54.8"
   },
   "scripts": {
     "serve": "vitepress dev docs",
-    "build": "vitepress build docs"
+    "build": "vitepress build docs",
+    "lint": "eslint 'docs/.vitepress/*.{js,vue}'"
   },
   "dependencies": {
-    "dayjs": "^1.10.6"
+    "dayjs": "^1.10.6",
+    "glob": "^7.1.7",
+    "gray-matter": "^4.0.3",
+    "vitepress": "^0.16.1",
+    "vue": "^3.2.6"
   }
 }
