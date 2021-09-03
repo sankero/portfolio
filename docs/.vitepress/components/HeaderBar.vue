@@ -161,6 +161,7 @@ export default {
     &-innr {
       display: flex;
       justify-content: space-between;
+      align-items: center;
     }
   }
   @media (min-aspect-ratio: 1 / 1) {
@@ -172,8 +173,7 @@ export default {
   padding: 0;
   margin: 0;
   line-height: 1;
-  width: 32vw;
-  height: 1em;
+  width: 42vw;
 }
 @keyframes scrolldown {
   0% {
