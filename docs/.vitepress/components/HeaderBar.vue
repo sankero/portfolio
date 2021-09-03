@@ -10,11 +10,11 @@
       <nav class="header-nav">
         <div
           class="header-nav-item"
-          @click="$emit('update:about', !about)"
+          @click="switchAbout()"
         >
           <profileIcon
             class="icon"
-            :class="{'on': about}"
+            :class="{'on': aboutShowFlg}"
           />
           <arrowDownIcon class="arrow" />
           <div class="label">
@@ -28,6 +28,8 @@
 </template>
 
 <script lang="ts">
+import { inject } from 'vue'
+import { store, storeKey } from '../store/store.ts'
 import arrowDownIcon from './icon/arrowDown.vue'
 import profileIcon from './icon/profile.vue'
 import logo from './Logo.vue'
@@ -47,14 +49,11 @@ export default {
       type: Boolean,
       default: true,
     },
-    about: {
-      type: Boolean,
-      default: false,
-    },
   },
-  emits: ['update:about'],
 
   setup() {
+    const { aboutShowFlg, switchAbout } = inject(storeKey) as store
+
     /**
      * タグリスト
      */
@@ -73,6 +72,8 @@ export default {
       },
     ]
     return {
+      aboutShowFlg,
+      switchAbout,
       tagList,
     }
   },

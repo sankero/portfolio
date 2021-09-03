@@ -1,7 +1,6 @@
 <template>
   <header-bar
     v-model:tagFilter="tagFilter"
-    v-model:about="aboutFlg"
     :portrait="portrait"
   />
 
@@ -21,15 +20,21 @@
   <!-- about -->
   <transition name="about">
     <about
-      v-if="aboutFlg"
+      v-if="aboutShowFlg"
       v-model:tagFilter="tagFilter"
-      @close="aboutFlg = !aboutFlg"
+      @close="hideAbout()"
     />
   </transition>
 
   <footer class="footer">
     &copy; 2021 tagawa
   </footer>
+
+  <div class="debug">
+    <div @click="switchAbout()">
+      aboutShowFlg: {{ aboutShowFlg }}
+    </div>
+  </div>
 
   <div class="bg-ani-group">
     <div
@@ -44,10 +49,11 @@
 <script lang="ts">
 // Page
 import {
-  onMounted, onUnmounted, computed, reactive, ref,
+  onMounted, onUnmounted, computed, reactive, ref, inject,
 } from 'vue'
 import { useData, useRoute } from 'vitepress'
 import dayjs from 'dayjs'
+import { store, storeKey } from '../store/store.ts'
 import about from './About.vue'
 // Component
 import diagonal from '../components/Diagonal.vue'
@@ -62,9 +68,9 @@ export default {
     workModal,
   },
   setup() {
+    const { aboutShowFlg, showAbout, hideAbout, switchAbout } = inject(storeKey) as store
     const { site } = useData() // サイトデータ
     const route = useRoute() // ルート
-    const aboutFlg = ref(false) // aboutFlg表示・非表示
     const portrait = ref(true) // 画面向き
     const tagFilter = ref([]) // タグフィルター指定
     // ソートパラメータ
@@ -89,9 +95,9 @@ export default {
     const onwheelEvent = (event) => {
       if (modal.value) return
       if (event.deltaY > 60) {
-        aboutFlg.value = true
+        showAbout()
       } else if (event.deltaY < -60) {
-        aboutFlg.value = false
+        hideAbout()
       }
     }
 
@@ -156,7 +162,10 @@ export default {
     }).splice(0, maxItem))
 
     return {
-      aboutFlg,
+      aboutShowFlg,
+      showAbout,
+      hideAbout,
+      switchAbout,
       portrait,
       sort,
       tagFilter,
@@ -329,5 +338,14 @@ body {
     100%{
         transform: translate3d(0, 0, 1px) rotate(360deg);
     }
+}
+.debug {
+  display:none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
+  background: rgba(0,0,0,0.7);
+  color: #FFF;
 }
 </style>

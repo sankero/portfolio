@@ -15,8 +15,12 @@
       stroke-miterlimit: 2;
     "
   >
+    <!-- eslint-disable max-len -->
     <g transform="matrix(2.66667,0,0,2.66667,0,0)">
-      <g id="logo" transform="matrix(1.02152,0,0,1,-79.1981,-110.055)">
+      <g
+        id="logo"
+        transform="matrix(1.02152,0,0,1,-79.1981,-110.055)"
+      >
         <rect
           x="77.529"
           y="110.055"
@@ -24,7 +28,10 @@
           height="295.298"
           style="fill: none"
         />
-        <g id="ink3" class="svg-logo-ink ink3">
+        <g
+          id="ink3"
+          class="svg-logo-ink ink3"
+        >
           <g transform="matrix(1.79463,0,0,1.83325,-214.759,64.1136)">
             <path
               d="M199.175,93.234C198.635,92.947 198.954,92.631 198.749,92.333C199.213,91.888 199.68,91.556 200.183,92.148C200.199,92.53 199.559,93.222 199.175,93.234Z"
@@ -308,7 +315,10 @@
             />
           </g>
         </g>
-        <g id="ink2" class="svg-logo-ink ink2">
+        <g
+          id="ink2"
+          class="svg-logo-ink ink2"
+        >
           <g transform="matrix(1.79463,0,0,1.83325,-214.759,64.1136)">
             <path
               d="M269.43,132.915C269.016,133.208 268.61,133.47 268.278,133.397C267.985,132.985 267.725,132.577 267.797,132.247C268.409,132.173 268.995,132.213 269.43,132.915Z"
@@ -646,7 +656,10 @@
             />
           </g>
         </g>
-        <g id="ink1" class="svg-logo-ink ink1">
+        <g
+          id="ink1"
+          class="svg-logo-ink ink1"
+        >
           <g transform="matrix(1.79463,0,0,1.83325,-214.759,64.1136)">
             <path
               d="M240.842,91.952C240.842,91.952 241.607,160.118 241.362,173.021C241.248,178.957 244.231,178.239 243.696,172.42C243.162,166.602 241.719,102.506 243.341,91.953L240.842,91.952Z"
@@ -798,7 +811,11 @@
             />
           </g>
         </g>
-        <g id="text" class="svg-logo-text" transform="matrix(0.97893,0,0,1,34.8212,23.7671)">
+        <g
+          id="text"
+          class="svg-logo-text"
+          transform="matrix(0.97893,0,0,1,34.8212,23.7671)"
+        >
           <g transform="matrix(1.3273,0,0,1.3273,-73.4168,-98.2617)">
             <path
               d="M218.422,254.737C221.037,254.737 224.174,254.165 227.834,253.021L227.834,264.148C224.108,265.815 219.533,266.648 214.109,266.648C208.128,266.648 203.774,265.137 201.045,262.114C198.316,259.091 196.952,254.557 196.952,248.511L196.952,222.09L189.795,222.09L189.795,215.767L198.031,210.767L202.344,199.199L211.903,199.199L211.903,210.865L227.246,210.865L227.246,222.09L211.903,222.09L211.903,248.511C211.903,250.636 212.499,252.204 213.692,253.217C214.885,254.23 216.462,254.737 218.422,254.737Z"
@@ -884,7 +901,10 @@
           offset="0.9"
           style="stop-color: rgb(255, 225, 180); stop-opacity: 1"
         />
-        <stop offset="1" style="stop-color: white; stop-opacity: 1" />
+        <stop
+          offset="1"
+          style="stop-color: white; stop-opacity: 1"
+        />
       </linearGradient>
       <linearGradient
         id="_Linear2"
@@ -907,7 +927,10 @@
           offset="0.9"
           style="stop-color: rgb(255, 225, 180); stop-opacity: 1"
         />
-        <stop offset="1" style="stop-color: white; stop-opacity: 1" />
+        <stop
+          offset="1"
+          style="stop-color: white; stop-opacity: 1"
+        />
       </linearGradient>
       <linearGradient
         id="_Linear3"
@@ -930,7 +953,10 @@
           offset="0.9"
           style="stop-color: rgb(255, 225, 180); stop-opacity: 1"
         />
-        <stop offset="1" style="stop-color: white; stop-opacity: 1" />
+        <stop
+          offset="1"
+          style="stop-color: white; stop-opacity: 1"
+        />
       </linearGradient>
       <linearGradient
         id="_Linear4"
@@ -953,7 +979,10 @@
           offset="0.9"
           style="stop-color: rgb(255, 225, 180); stop-opacity: 1"
         />
-        <stop offset="1" style="stop-color: white; stop-opacity: 1" />
+        <stop
+          offset="1"
+          style="stop-color: white; stop-opacity: 1"
+        />
       </linearGradient>
       <linearGradient
         id="_Linear5"
@@ -976,7 +1005,10 @@
           offset="0.9"
           style="stop-color: rgb(255, 225, 180); stop-opacity: 1"
         />
-        <stop offset="1" style="stop-color: white; stop-opacity: 1" />
+        <stop
+          offset="1"
+          style="stop-color: white; stop-opacity: 1"
+        />
       </linearGradient>
       <linearGradient
         id="_Linear6"
@@ -999,7 +1031,10 @@
           offset="0.9"
           style="stop-color: rgb(255, 225, 180); stop-opacity: 1"
         />
-        <stop offset="1" style="stop-color: white; stop-opacity: 1" />
+        <stop
+          offset="1"
+          style="stop-color: white; stop-opacity: 1"
+        />
       </linearGradient>
       <linearGradient
         id="_Linear7"
@@ -1022,7 +1057,10 @@
           offset="0.9"
           style="stop-color: rgb(255, 225, 180); stop-opacity: 1"
         />
-        <stop offset="1" style="stop-color: white; stop-opacity: 1" />
+        <stop
+          offset="1"
+          style="stop-color: white; stop-opacity: 1"
+        />
       </linearGradient>
       <linearGradient
         id="_Linear8"
@@ -1045,7 +1083,10 @@
           offset="0.9"
           style="stop-color: rgb(255, 225, 180); stop-opacity: 1"
         />
-        <stop offset="1" style="stop-color: white; stop-opacity: 1" />
+        <stop
+          offset="1"
+          style="stop-color: white; stop-opacity: 1"
+        />
       </linearGradient>
       <linearGradient
         id="_Linear9"
@@ -1068,7 +1109,10 @@
           offset="0.9"
           style="stop-color: rgb(255, 225, 180); stop-opacity: 1"
         />
-        <stop offset="1" style="stop-color: white; stop-opacity: 1" />
+        <stop
+          offset="1"
+          style="stop-color: white; stop-opacity: 1"
+        />
       </linearGradient>
       <linearGradient
         id="_Linear10"
@@ -3679,6 +3723,7 @@
         />
       </linearGradient>
     </defs>
+    <!-- eslint-enable max-len -->
   </svg>
 </template>
 
