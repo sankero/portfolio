@@ -12,8 +12,8 @@
   <!-- modal (content) -->
   <transition name="modal">
     <workModal
-      v-if="modal"
-      :show-flg="modal"
+      v-if="worksShowFlg"
+      :show-flg="worksShowFlg"
     />
   </transition>
 
@@ -31,9 +31,9 @@
   </footer>
 
   <div class="debug">
-    <div @click="switchAbout()">
-      aboutShowFlg: {{ aboutShowFlg }}
-    </div>
+    <div @click="switchAbout()">aboutShowFlg: {{ aboutShowFlg }}</div>
+      
+    <div>worksShowFlg: {{ worksShowFlg }}</div>
   </div>
 
   <div class="bg-ani-group">
@@ -68,7 +68,7 @@ export default {
     workModal,
   },
   setup() {
-    const { aboutShowFlg, showAbout, hideAbout, switchAbout } = inject(storeKey) as store
+    const { aboutShowFlg, showAbout, hideAbout, switchAbout, worksShowFlg } = inject(storeKey) as store
     const { site } = useData() // サイトデータ
     const route = useRoute() // ルート
     const portrait = ref(true) // 画面向き
@@ -78,8 +78,6 @@ export default {
       key: 'date',
       asc: false,
     })
-    // モーダル表示・非表示
-    const modal = computed(() => !(route.path === '/'))
 
     /**
      * ウィンドウリサイズ時の処理
@@ -93,7 +91,7 @@ export default {
      * aboutを表示・非表示
      */
     const onwheelEvent = (event) => {
-      if (modal.value) return
+      if (worksShowFlg) return
       if (event.deltaY > 60) {
         showAbout()
       } else if (event.deltaY < -60) {
@@ -162,14 +160,16 @@ export default {
     }).splice(0, maxItem))
 
     return {
+      // store
       aboutShowFlg,
       showAbout,
       hideAbout,
       switchAbout,
+      worksShowFlg,
+      // this
       portrait,
       sort,
       tagFilter,
-      modal,
       workList,
       sortChange,
       ascChenge,

@@ -6,7 +6,7 @@
     />
     <transition name="modal-innr">
       <article
-        v-show="showFlg"
+        v-show="worksShowFlg"
         class="modal-innr md"
       >
         <header class="md-header">
@@ -63,15 +63,18 @@
 </template>
 
 <script lang="ts">
+import { inject } from 'vue'
+import { store, storeKey } from '../store/store.ts'
 import { useData } from 'vitepress'
 
 export default {
-  props: {
-    showFlg: Boolean,
-  },
   setup() {
+    const { worksShowFlg } = inject(storeKey) as store
     const { page } = useData()
     return {
+      // store
+      worksShowFlg,
+      // this
       page,
     }
   },
