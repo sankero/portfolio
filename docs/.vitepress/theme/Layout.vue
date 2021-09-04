@@ -91,7 +91,7 @@ export default {
      * aboutを表示・非表示
      */
     const onwheelEvent = (event) => {
-      if (worksShowFlg) return
+      if (worksShowFlg.value) return
       if (event.deltaY > 60) {
         showAbout()
       } else if (event.deltaY < -60) {
