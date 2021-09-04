@@ -45,6 +45,9 @@ export default {
   box-shadow: #BBB 6px 6px 8px;
   cursor: pointer;
   overflow: hidden;
+  // animation
+  animation: fuwa-ani;
+  animation-timing-function: ease-out;
   // Tablet
   flex-basis: $diagonalCardWidthMobile;
   height: ($diagonalCardWidthMobile * 0.56);
@@ -104,6 +107,12 @@ export default {
     border-radius: 6px;
     font-size: 0.8vw;
   }
+
+}
+for i in (1..30) {
+  .card:nth-child({i}) {
+    animation-duration: (i * 0.1)s;
+  }
 }
 // Mobile
 @media (max-aspect-ratio: 1 / 1) {
@@ -154,6 +163,25 @@ export default {
     &:nth-child(22) { margin-right: ($diagonalCardBlank * 0.25);}
     // 7 line
     &:nth-child(23) { margin-left: ($diagonalCardBlank * 0.5);}
+  }
+}
+@keyframes fuwa-ani {
+  0% {
+    transform: translate(-18px,-25px);
+    box-shadow: #999 22px 22px 16px;
+    opacity: 0;
+  }
+  60% {
+    opacity: 0.4;
+  }
+  90% {
+    transform: translate(2px,2px);
+    box-shadow: #bbb 3px 3px 2px;
+    opacity: 1;
+  }
+  100%{
+    transform: translate(0px,0px);
+    box-shadow: #bbb 6px 6px 8px;
   }
 }
 </style>
