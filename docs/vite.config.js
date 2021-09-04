@@ -1,7 +1,7 @@
 export default {
   server: {
     fsServe: {
-      root: '../' 
-    }
-  }
+      root: '../',
+    },
+  },
 }

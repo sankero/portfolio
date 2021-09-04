@@ -1,5 +1,8 @@
 <template>
-  <header-bar v-model:tagFilter="tagFilter"  v-model:about="about"  :portrait="portrait" />
+  <header-bar
+    v-model:tagFilter="tagFilter"
+    :portrait="portrait"
+  />
 
   <!-- works -->
   <article class="container">
@@ -8,61 +11,97 @@
 
   <!-- modal (content) -->
   <transition name="modal">
-    <modal v-if="showModal" :showFlg="showModal" />
+    <workModal
+      v-if="worksShowFlg"
+      :show-flg="worksShowFlg"
+    />
   </transition>
 
   <!-- about -->
   <transition name="about">
-    <about v-if="about" v-model:tagFilter="tagFilter" @close="about = !about" />
+    <about
+      v-if="aboutShowFlg"
+      v-model:tagFilter="tagFilter"
+      @close="hideAbout()"
+    />
   </transition>
 
-  <footer class="footer">&copy; 2021 tagawa</footer>
+  <footer class="footer">
+    &copy; 2021 tagawa
+  </footer>
 
-  <div class="bg-ani-group">
-    <div v-for="i in 8" :key="i" class="bg-ani-group-item"></div>
-    <!-- <div class="bg-point-stalker"></div> -->
+  <div class="debug">
+    <div @click="switchAbout()">aboutShowFlg: {{ aboutShowFlg }}</div>
+      
+    <div>worksShowFlg: {{ worksShowFlg }}</div>
   </div>
 
+  <div class="bg-ani-group">
+    <div
+      v-for="i in 8"
+      :key="i"
+      class="bg-ani-group-item"
+    />
+    <!-- <div class="bg-point-stalker"></div> -->
+  </div>
 </template>
 
 <script lang="ts">
 // Page
+import {
+  onMounted, onUnmounted, computed, reactive, ref, inject,
+} from 'vue'
+import { useData, useRoute } from 'vitepress'
+import dayjs from 'dayjs'
+import { store, storeKey } from '../store/store.ts'
 import about from './About.vue'
 // Component
 import diagonal from '../components/Diagonal.vue'
 import headerBar from '../components/HeaderBar.vue'
-import modal from '../components/modal.vue'
-import { onMounted, onUnmounted, computed, reactive, ref } from 'vue'
-import { useData, useRoute } from 'vitepress'
-import dayjs from 'dayjs';
+import workModal from '../components/WorkModal.vue'
 
 export default {
   components: {
     about,
     diagonal,
     headerBar,
-    modal
+    workModal,
   },
-  setup (props, context) {
-    const { site } = useData()
+  setup() {
+    const { aboutShowFlg, showAbout, hideAbout, switchAbout, worksShowFlg } = inject(storeKey) as store
+    const { site } = useData() // サイトデータ
+    const route = useRoute() // ルート
+    const portrait = ref(true) // 画面向き
+    const tagFilter = ref([]) // タグフィルター指定
+    // ソートパラメータ
+    const sort = reactive({
+      key: 'date',
+      asc: false,
+    })
+
     /**
-     * イベント関連の処理
+     * ウィンドウリサイズ時の処理
      */
-    const portrait = ref(true)
-    // ポートレート判定…アスペクト比で画面の縦横を判別
     const updateWindowsProperties = () => {
       portrait.value = window.innerWidth > window.innerHeight
       document.documentElement.style.setProperty('--windowHeight', `${window.innerHeight}px`)
     }
-    // スクロールでaboutを表示・非表示
+
+    /**
+     * aboutを表示・非表示
+     */
     const onwheelEvent = (event) => {
-      if (showModal.value) return
+      if (worksShowFlg.value) return
       if (event.deltaY > 60) {
-        about.value = true
-      } else if(event.deltaY < -60) {
-        about.value = false
+        showAbout()
+      } else if (event.deltaY < -60) {
+        hideAbout()
       }
     }
+
+    /**
+     * マウススクロールイベント
+     */
     onMounted(() => {
       window.addEventListener('resize', updateWindowsProperties)
       window.addEventListener('wheel', onwheelEvent)
@@ -74,22 +113,12 @@ export default {
     })
 
     /**
-     * ソート機能
-     */
-    const sort = reactive({
-      key: 'date',
-      asc: false
-    })
-    const tagFilter = ref([])
-
-    const about = ref(false)
-
-    /**
      * ソートキー変更
      */
     const sortChange = () => {
       sort.key = sort.key === 'date' ? 'title' : 'date'
     }
+
     /**
      * 昇順・降順変更
      */
@@ -98,53 +127,54 @@ export default {
     }
 
     /**
-     * 制作物一覧
+     * タグ選択
      */
     const tagFiltering = (tags) => {
       let flg = false
-      tags.forEach(tag => {
+      tags.forEach((tag) => {
         if (tagFilter.value.includes(tag)) flg = true
       })
       return flg
     }
 
-    const maxItem = 25 // 表示する項目数
-    const workList = computed(() => {
-      return site.value.customData.workList.map(obj => {
-        // フィルタ
-        if (tagFilter.value?.length && !obj.data.tags?.length) return
-        if (tagFilter.value?.length && obj.data.tags?.length && !tagFiltering(obj.data.tags)) return
-        return {
-          title: obj.data.shortTitle,
-          date: dayjs(obj.data.date).format('YYYY.MM'),
-          href: obj.href,
-          thumbnail: `background-image: url(/works/img/${obj.key}.webp);`
-        }
-      }).sort((a, b) => {
-        const ret = new Date(b[sort.key]).getTime() - new Date(a[sort.key]).getTime()
-        return sort.asc ? ret : -ret
-      }).splice(0, maxItem)
-    })
-
     /**
-     * モーダル表示
+     * ワークリスト
      */
-    const route = useRoute()
-    const showModal = computed(() => {
-      return !(route.path === '/')
-    })
+    const maxItem = 25 // 表示する項目数
+    const workList = computed(() => site.value.customData.workList.map((obj) => {
+      // フィルタ
+      if (tagFilter.value?.length && !obj.data.tags?.length) return false
+      if (
+        tagFilter.value?.length
+        && obj.data.tags?.length
+        && !tagFiltering(obj.data.tags)) return false
+      return {
+        title: obj.data.shortTitle,
+        date: dayjs(obj.data.date).format('YYYY.MM'),
+        href: obj.href,
+        thumbnail: `background-image: url(/works/img/${obj.key}.webp);`,
+      }
+    }).sort((a, b) => {
+      const ret = new Date(b[sort.key]).getTime() - new Date(a[sort.key]).getTime()
+      return sort.asc ? ret : -ret
+    }).splice(0, maxItem))
 
     return {
-      about,
+      // store
+      aboutShowFlg,
+      showAbout,
+      hideAbout,
+      switchAbout,
+      worksShowFlg,
+      // this
       portrait,
       sort,
       tagFilter,
-      showModal,
       workList,
       sortChange,
-      ascChenge
+      ascChenge,
     }
-  }
+  },
 }
 </script>
 
@@ -157,7 +187,15 @@ export default {
 body {
   // background: #e0e0e0;
   margin: 0;
-  font-family: "Helvetica Neue", "Helvetica", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Arial", "Yu Gothic", "Meiryo", sans-serif;
+  font-family:
+    "Helvetica Neue",
+    "Helvetica",
+    "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN",
+    "Arial",
+    "Yu Gothic",
+    "Meiryo",
+    sans-serif;
   font-weight: 200;
 }
 .container {
@@ -300,5 +338,14 @@ body {
     100%{
         transform: translate3d(0, 0, 1px) rotate(360deg);
     }
+}
+.debug {
+  display:none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
+  background: rgba(0,0,0,0.7);
+  color: #FFF;
 }
 </style>

@@ -1,21 +1,30 @@
 <template>
   <div class="diagonal">
-    <template v-for="(item, i) in value" :key="i">
-      <card v-if="item" :value="item" />
-    </template> 
+    <template
+      v-for="(item, i) in value"
+      :key="i"
+    >
+      <card
+        v-if="item"
+        :value="item"
+      />
+    </template>
   </div>
 </template>
 
 <script lang="ts">
-import card from '../components/Card.vue'
+import card from './Card.vue'
 
 export default {
   components: {
-    card
+    card,
   },
   props: {
-    value: Array
-  }
+    value: {
+      type: Array,
+      default: () => [],
+    },
+  },
 }
 </script>
 

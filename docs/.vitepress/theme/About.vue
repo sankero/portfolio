@@ -1,6 +1,9 @@
 <template>
   <article class="about">
-    <div class="about-close" @click="onClose"></div>
+    <div
+      class="about-close"
+      @click="onClose"
+    />
     <div class="about-innr">
       <header class="about-header">
         <h2>About Me</h2>
@@ -8,7 +11,10 @@
       <div class="about-row">
         <section class="about-section">
           <picture class="about-profile-image">
-            <img src="/img/profile.webp" alt="tagawa">
+            <img
+              src="/img/profile.webp"
+              alt="tagawa"
+            >
           </picture>
           <h4>Hiroyuki Tagawa</h4>
           <div>
@@ -20,17 +26,33 @@
             </p>
           </div>
         </section>
-        <section id="tag-filter" class="about-section">
+        <section
+          id="tag-filter"
+          class="about-section"
+        >
           <h3>Skill sheet</h3>
           <nav class="tag-filter">
             <ul>
-              <li v-for="obj in tagList" :key="obj.title">
-                <h5 class="tag-filter-title">{{obj.title}}</h5>
+              <li
+                v-for="obj in tagList"
+                :key="obj.title"
+              >
+                <h5 class="tag-filter-title">
+                  {{ obj.title }}
+                </h5>
                 <ul class="tag-filter-group">
-                  <li v-for="tag in obj.tags" :key="tag">
+                  <li
+                    v-for="tag in obj.tags"
+                    :key="tag"
+                  >
                     <label class="tag-filter-label">
-                      <input type="checkbox" :value="tag" v-model="tagSelector" class="tag-filter-input">
-                      <div class="tag-filter-text">{{tag}}</div>
+                      <input
+                        v-model="tagSelector"
+                        type="checkbox"
+                        :value="tag"
+                        class="tag-filter-input"
+                      >
+                      <div class="tag-filter-text">{{ tag }}</div>
                     </label>
                   </li>
                 </ul>
@@ -44,33 +66,34 @@
 </template>
 
 <script lang="ts">
-import cancelIcon from '../components/icon/cancel.vue'
 import { computed } from 'vue'
 
 export default {
-  components: {
-    cancelIcon
-  },
   props: {
-    tagFilter: Array
+    tagFilter: {
+      type: Array,
+      default: () => [],
+    },
   },
-  setup (props, context) {
+  emits: ['update:tagFilter', 'close'],
+
+  setup(props, context) {
     /**
      * タグリスト
      */
     const tagList = [
       {
         title: 'Programming language',
-        tags: ['Javascript', 'PHP']
+        tags: ['Javascript', 'PHP'],
       },
       {
         title: 'Framework',
-        tags: ['Vue.js', 'Nuxt.js', 'React', 'Laravel', 'SCSS', 'stylus', 'ElementUI', 'Vuetify', 'Bootstrap']
+        tags: ['Vue.js', 'Nuxt.js', 'React', 'Laravel', 'SCSS', 'stylus', 'ElementUI', 'Vuetify', 'Bootstrap'],
       },
       {
         title: 'others',
-        tags: ['WordPress', 'docker', 'オリジナルテーマ', 'jQuery']
-      }
+        tags: ['WordPress', 'docker', 'オリジナルテーマ', 'jQuery'],
+      },
     ]
 
     /**
@@ -80,23 +103,22 @@ export default {
       get: () => props.tagFilter,
       set: (value) => {
         context.emit('update:tagFilter', value)
-      }
+      },
     })
 
     /**
      * 閉じるボタン
      */
-    const onClose = () =>{
-      console.log('onClose')
+    const onClose = () => {
       context.emit('close')
     }
 
     return {
       onClose,
       tagList,
-      tagSelector
+      tagSelector,
     }
-  }
+  },
 }
 </script>
 
