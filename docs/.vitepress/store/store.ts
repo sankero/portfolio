@@ -15,11 +15,12 @@ const hideAbout = () => _aboutShowFlg.value = false
 const switchAbout = () => _aboutShowFlg.value = !_aboutShowFlg.value
 const aboutShowFlg = computed(() => _aboutShowFlg.value)
 
+// path監視
+const path = ref('/')
+const updatePath = (p) => path.value = p
+
 // Worksモーダルの表示フラグ
-const _worksShowFlg = ref(false)
-const showWorks = () => _worksShowFlg.value = true
-const hideWorks = () => _worksShowFlg.value = false
-const worksShowFlg = computed(() => _worksShowFlg.value)
+const worksShowFlg = computed(() => path.value !== '/')
 
 // Worksのクエリパラメータ
 const _worksQuery = reactive({
@@ -33,16 +34,17 @@ const sortWorksByDesc = () => _worksQuery.asc = false
 const sortSwitchWorks = () => _worksQuery.asc = !_worksQuery.asc
 const worksQuery = computed(() => _worksQuery)
 
+
 export default {
   // Aboutの表示フラグ
   aboutShowFlg,
   showAbout,
   hideAbout,
   switchAbout,
+  // path監視
+  updatePath,
   // Worksモーダルの表示フラグ
   worksShowFlg,
-  showWorks,
-  hideWorks,
   // Worksのクエリパラメータ
   worksQuery,
   sortSwitchWorks,
