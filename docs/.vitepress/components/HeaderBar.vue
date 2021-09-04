@@ -53,28 +53,9 @@ export default {
 
   setup() {
     const { aboutShowFlg, switchAbout } = inject(storeKey) as store
-
-    /**
-     * タグリスト
-     */
-    const tagList = [
-      {
-        title: 'Programming language',
-        tags: ['Javascript', 'PHP'],
-      },
-      {
-        title: 'Framework',
-        tags: ['Vue.js', 'Nuxt.js', 'React', 'Laravel', 'SCSS', 'stylus', 'ElementUI', 'Vuetify', 'Bootstrap'],
-      },
-      {
-        title: 'others',
-        tags: ['WordPress', 'docker', 'オリジナルテーマ', 'jQuery'],
-      },
-    ]
     return {
       aboutShowFlg,
       switchAbout,
-      tagList,
     }
   },
 }

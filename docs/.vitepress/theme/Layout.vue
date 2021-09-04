@@ -161,8 +161,6 @@ export default {
       _href = ''
       _workList.reverse().forEach(work => updateNextPrevLink(work, 'prev'))
 
-      console.log(_workList)
-
       return _workList
     })
 
@@ -346,7 +344,7 @@ body {
     }
 }
 .debug {
-  // display: none;
+  display: none;
   position: fixed;
   bottom: 0;
   left: 0;

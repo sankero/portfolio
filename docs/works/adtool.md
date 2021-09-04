@@ -4,7 +4,7 @@ shortTitle: マーケティングツール
 description: 常駐のフロントエンジニアとして参画しました。
 key: adtool
 date: 2021-03-01
-tags: [SaaS, SPA,  Nuxt.js, ElementUI, Vue.js, MySQL, ramda.js, Storybook, eslint, jest, Github, Javascript]
+tags: [SaaS, SPA,  Nuxt.js, ElementUI, Vue.js, MySQL, ramda.js, Storybook, eslint, jest, Github, Javascript, Docker]
 favorite: true
 ---
 
