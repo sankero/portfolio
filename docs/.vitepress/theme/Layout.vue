@@ -13,7 +13,6 @@
   <transition name="modal">
     <workModal
       v-if="worksShowFlg"
-      :show-flg="worksShowFlg"
     />
   </transition>
 
