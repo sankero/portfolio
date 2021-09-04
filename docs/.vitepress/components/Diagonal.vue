@@ -5,7 +5,7 @@
       :key="i"
     >
       <card
-        v-if="item && Object.keys(item).length"
+        v-if="item && item.visible"
         :value="item"
       />
     </template>

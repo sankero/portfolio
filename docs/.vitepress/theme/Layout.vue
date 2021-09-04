@@ -135,11 +135,7 @@ export default {
     const workList = computed(() => {
       // フィルターしてリスト作成
       let _workList = site.value.customData.workList.map((obj) => {
-        if (tagFilter.value?.length && !obj.data.tags?.length) return {}
-        if (
-          tagFilter.value?.length
-          && obj.data.tags?.length
-          && !tagFiltering(obj.data.tags)) return {}
+        const visible = !(tagFilter.value?.length && (!obj.data.tags?.length || (obj.data.tags?.length  && !tagFiltering(obj.data.tags))))
         return {
           title: obj.data.shortTitle,
           date: dayjs(obj.data.date).format('YYYY.MM'),
@@ -147,6 +143,7 @@ export default {
           thumbnail: `background-image: url(/works/img/${obj.key}.webp);`,
           prev: '',
           next: '',
+          visible
         }
       }).sort((a, b) => {
         const ret = new Date(b[worksQuery.value.key]).getTime() - new Date(a[worksQuery.value.key]).getTime()
@@ -155,7 +152,7 @@ export default {
 
       // 左右ページャー用のリンクを挿入
       const updateNextPrevLink = (work, key) => {
-        if (!work || !Object.keys(work).length) return
+        if (!work || !work.visible) return
         if (_href) work[key] = _href
         _href = work.href
       }
