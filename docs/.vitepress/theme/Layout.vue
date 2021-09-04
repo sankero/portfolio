@@ -13,6 +13,7 @@
   <transition name="modal">
     <workModal
       v-if="worksShowFlg"
+      :pageLink="workLink"
     />
   </transition>
 
@@ -25,14 +26,17 @@
     />
   </transition>
 
-  <footer class="footer">
+  <footer class="footer" @click="debugWindowFlg = !debugWindowFlg">
     &copy; 2021 tagawa
   </footer>
 
-  <div class="debug">
+  <div v-if="debugWindowFlg" class="debug">
+    <h1 class="-title">Debug Window</h1>
     <div @click="switchAbout()">aboutShowFlg: {{ aboutShowFlg }}</div>
     <div>worksShowFlg: {{ worksShowFlg }}</div>
     <div @click="sortSwitchWorks()">worksQuery: {{ worksQuery }}</div>
+    <div>workLink: {{ workLink }}</div>
+    <div>activeWorkPageKey: {{ activeWorkPageKey }}</div>
   </div>
 
   <div class="bg-ani-group">
@@ -74,10 +78,12 @@ export default {
       switchAbout,
       worksShowFlg,
       worksQuery,
-      sortSwitchWorks } = inject(storeKey) as store
+      sortSwitchWorks,
+      activeWorkPageKey } = inject(storeKey) as store
     const { site } = useData() // サイトデータ
     const portrait = ref(true) // 画面向き
     const tagFilter = ref([]) // タグフィルター指定
+    const debugWindowFlg = ref(false) // デバッグ用
     // ソートパラメータ
     const sort = reactive({
       key: 'date',
@@ -140,6 +146,7 @@ export default {
           title: obj.data.shortTitle,
           date: dayjs(obj.data.date).format('YYYY.MM'),
           href: obj.href,
+          key: obj.key,
           thumbnail: `background-image: url(/works/img/${obj.key}.webp);`,
           prev: '',
           next: '',
@@ -164,6 +171,15 @@ export default {
       return _workList
     })
 
+    // nextとprevをセット
+    const workLink = computed(() => {
+      const work = workList.value.find((work) => work.key === activeWorkPageKey.value)
+      return {
+        next: work?.next || '',
+        prev: work?.prev || ''
+      }
+    })
+
     return {
       // store
       aboutShowFlg,
@@ -173,10 +189,13 @@ export default {
       worksShowFlg,
       worksQuery,
       sortSwitchWorks,
+      activeWorkPageKey,
       // this
       portrait,
       tagFilter,
       workList,
+      workLink,
+      debugWindowFlg,
     }
   },
 }
@@ -344,12 +363,17 @@ body {
     }
 }
 .debug {
-  display: none;
   position: fixed;
-  bottom: 0;
-  left: 0;
+  bottom: 1vw;
+  left: 1vw;
   z-index: 9999;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.3);
   color: #FFF;
+  padding: 1em;
+  font-size: 11px;
+  .-title {
+    margin: 0;
+    font-size: 1.2em;
+  }
 }
 </style>

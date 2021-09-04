@@ -17,6 +17,10 @@ const aboutShowFlg = computed(() => _aboutShowFlg.value)
 
 // path監視
 const path = ref('/')
+// 表示中のwokrページのkey
+const activeWorkPageKey = computed(() => {
+  return path.value.match('(?<=/works/).*(?=.html)')?.[0] || ''
+})
 const updatePath = (p) => path.value = p
 
 // Worksモーダルの表示フラグ
@@ -42,6 +46,7 @@ export default {
   hideAbout,
   switchAbout,
   // path監視
+  activeWorkPageKey,
   updatePath,
   // Worksモーダルの表示フラグ
   worksShowFlg,
