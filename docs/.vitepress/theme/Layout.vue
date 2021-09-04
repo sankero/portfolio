@@ -132,23 +132,42 @@ export default {
      * ワークリスト
      */
     const maxItem = 25 // 表示する項目数
-    const workList = computed(() => site.value.customData.workList.map((obj) => {
-      // フィルタ
-      if (tagFilter.value?.length && !obj.data.tags?.length) return false
-      if (
-        tagFilter.value?.length
-        && obj.data.tags?.length
-        && !tagFiltering(obj.data.tags)) return false
-      return {
-        title: obj.data.shortTitle,
-        date: dayjs(obj.data.date).format('YYYY.MM'),
-        href: obj.href,
-        thumbnail: `background-image: url(/works/img/${obj.key}.webp);`,
+    const workList = computed(() => {
+      // フィルターしてリスト作成
+      let _workList = site.value.customData.workList.map((obj) => {
+        if (tagFilter.value?.length && !obj.data.tags?.length) return {}
+        if (
+          tagFilter.value?.length
+          && obj.data.tags?.length
+          && !tagFiltering(obj.data.tags)) return {}
+        return {
+          title: obj.data.shortTitle,
+          date: dayjs(obj.data.date).format('YYYY.MM'),
+          href: obj.href,
+          thumbnail: `background-image: url(/works/img/${obj.key}.webp);`,
+          prev: '',
+          next: '',
+        }
+      }).sort((a, b) => {
+        const ret = new Date(b[worksQuery.value.key]).getTime() - new Date(a[worksQuery.value.key]).getTime()
+        return worksQuery.value.asc ? ret : -ret
+      }).splice(0, maxItem)
+
+      // 左右ページャー用のリンクを挿入
+      const updateNextPrevLink = (work, key) => {
+        if (!work || !Object.keys(work).length) return
+        if (_href) work[key] = _href
+        _href = work.href
       }
-    }).sort((a, b) => {
-      const ret = new Date(b[worksQuery.value.key]).getTime() - new Date(a[worksQuery.value.key]).getTime()
-      return worksQuery.value.asc ? ret : -ret
-    }).splice(0, maxItem))
+      let _href = ''
+      _workList.reverse().forEach(work => updateNextPrevLink(work, 'next'))
+      _href = ''
+      _workList.reverse().forEach(work => updateNextPrevLink(work, 'prev'))
+
+      console.log(_workList)
+
+      return _workList
+    })
 
     return {
       // store
@@ -330,7 +349,7 @@ body {
     }
 }
 .debug {
-  display:none;
+  // display: none;
   position: fixed;
   bottom: 0;
   left: 0;
