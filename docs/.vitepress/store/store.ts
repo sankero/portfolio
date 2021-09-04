@@ -1,4 +1,4 @@
-import { ref, computed, ComputedRef, InjectionKey } from "vue"
+import { ref, reactive, computed, ComputedRef, InjectionKey } from "vue"
 
 export interface store {
   aboutShowFlg: ComputedRef<boolean>;
@@ -21,6 +21,18 @@ const showWorks = () => _worksShowFlg.value = true
 const hideWorks = () => _worksShowFlg.value = false
 const worksShowFlg = computed(() => _worksShowFlg.value)
 
+// Worksのクエリパラメータ
+const _worksQuery = reactive({
+  key: 'date',
+  asc: false,
+  keyword: '',
+  tag: ''
+})
+const sortWorksByAsc = () => _worksQuery.asc = true
+const sortWorksByDesc = () => _worksQuery.asc = false
+const sortSwitchWorks = () => _worksQuery.asc = !_worksQuery.asc
+const worksQuery = computed(() => _worksQuery)
+
 export default {
   // Aboutの表示フラグ
   aboutShowFlg,
@@ -31,4 +43,7 @@ export default {
   worksShowFlg,
   showWorks,
   hideWorks,
+  // Worksのクエリパラメータ
+  worksQuery,
+  sortSwitchWorks,
 }

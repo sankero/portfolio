@@ -32,8 +32,8 @@
 
   <div class="debug">
     <div @click="switchAbout()">aboutShowFlg: {{ aboutShowFlg }}</div>
-      
     <div>worksShowFlg: {{ worksShowFlg }}</div>
+    <div @click="sortSwitchWorks()">worksQuery: {{ worksQuery }}</div>
   </div>
 
   <div class="bg-ani-group">
@@ -51,7 +51,7 @@
 import {
   onMounted, onUnmounted, computed, reactive, ref, inject,
 } from 'vue'
-import { useData, useRoute } from 'vitepress'
+import { useData } from 'vitepress'
 import dayjs from 'dayjs'
 import { store, storeKey } from '../store/store.ts'
 import about from './About.vue'
@@ -68,9 +68,15 @@ export default {
     workModal,
   },
   setup() {
-    const { aboutShowFlg, showAbout, hideAbout, switchAbout, worksShowFlg } = inject(storeKey) as store
+    const {
+      aboutShowFlg,
+      showAbout,
+      hideAbout,
+      switchAbout,
+      worksShowFlg,
+      worksQuery,
+      sortSwitchWorks } = inject(storeKey) as store
     const { site } = useData() // サイトデータ
-    const route = useRoute() // ルート
     const portrait = ref(true) // 画面向き
     const tagFilter = ref([]) // タグフィルター指定
     // ソートパラメータ
@@ -113,20 +119,6 @@ export default {
     })
 
     /**
-     * ソートキー変更
-     */
-    const sortChange = () => {
-      sort.key = sort.key === 'date' ? 'title' : 'date'
-    }
-
-    /**
-     * 昇順・降順変更
-     */
-    const ascChenge = () => {
-      sort.asc = !sort.asc
-    }
-
-    /**
      * タグ選択
      */
     const tagFiltering = (tags) => {
@@ -155,8 +147,8 @@ export default {
         thumbnail: `background-image: url(/works/img/${obj.key}.webp);`,
       }
     }).sort((a, b) => {
-      const ret = new Date(b[sort.key]).getTime() - new Date(a[sort.key]).getTime()
-      return sort.asc ? ret : -ret
+      const ret = new Date(b[worksQuery.value.key]).getTime() - new Date(a[worksQuery.value.key]).getTime()
+      return worksQuery.value.asc ? ret : -ret
     }).splice(0, maxItem))
 
     return {
@@ -166,13 +158,12 @@ export default {
       hideAbout,
       switchAbout,
       worksShowFlg,
+      worksQuery,
+      sortSwitchWorks,
       // this
       portrait,
-      sort,
       tagFilter,
       workList,
-      sortChange,
-      ascChenge,
     }
   },
 }
