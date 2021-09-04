@@ -13,7 +13,7 @@
   <transition name="modal">
     <workModal
       v-if="worksShowFlg"
-      :show-flg="worksShowFlg"
+      :pageLink="workLink"
     />
   </transition>
 
@@ -26,14 +26,17 @@
     />
   </transition>
 
-  <footer class="footer">
+  <footer class="footer" @click="debugWindowFlg = !debugWindowFlg">
     &copy; 2021 tagawa
   </footer>
 
-  <div class="debug">
+  <div v-if="debugWindowFlg" class="debug">
+    <h1 class="-title">Debug Window</h1>
     <div @click="switchAbout()">aboutShowFlg: {{ aboutShowFlg }}</div>
-      
     <div>worksShowFlg: {{ worksShowFlg }}</div>
+    <div @click="sortSwitchWorks()">worksQuery: {{ worksQuery }}</div>
+    <div>workLink: {{ workLink }}</div>
+    <div>activeWorkPageKey: {{ activeWorkPageKey }}</div>
   </div>
 
   <div class="bg-ani-group">
@@ -51,7 +54,7 @@
 import {
   onMounted, onUnmounted, computed, reactive, ref, inject,
 } from 'vue'
-import { useData, useRoute } from 'vitepress'
+import { useData } from 'vitepress'
 import dayjs from 'dayjs'
 import { store, storeKey } from '../store/store.ts'
 import about from './About.vue'
@@ -68,11 +71,19 @@ export default {
     workModal,
   },
   setup() {
-    const { aboutShowFlg, showAbout, hideAbout, switchAbout, worksShowFlg } = inject(storeKey) as store
+    const {
+      aboutShowFlg,
+      showAbout,
+      hideAbout,
+      switchAbout,
+      worksShowFlg,
+      worksQuery,
+      sortSwitchWorks,
+      activeWorkPageKey } = inject(storeKey) as store
     const { site } = useData() // サイトデータ
-    const route = useRoute() // ルート
     const portrait = ref(true) // 画面向き
     const tagFilter = ref([]) // タグフィルター指定
+    const debugWindowFlg = ref(false) // デバッグ用
     // ソートパラメータ
     const sort = reactive({
       key: 'date',
@@ -113,20 +124,6 @@ export default {
     })
 
     /**
-     * ソートキー変更
-     */
-    const sortChange = () => {
-      sort.key = sort.key === 'date' ? 'title' : 'date'
-    }
-
-    /**
-     * 昇順・降順変更
-     */
-    const ascChenge = () => {
-      sort.asc = !sort.asc
-    }
-
-    /**
      * タグ選択
      */
     const tagFiltering = (tags) => {
@@ -141,23 +138,47 @@ export default {
      * ワークリスト
      */
     const maxItem = 25 // 表示する項目数
-    const workList = computed(() => site.value.customData.workList.map((obj) => {
-      // フィルタ
-      if (tagFilter.value?.length && !obj.data.tags?.length) return false
-      if (
-        tagFilter.value?.length
-        && obj.data.tags?.length
-        && !tagFiltering(obj.data.tags)) return false
-      return {
-        title: obj.data.shortTitle,
-        date: dayjs(obj.data.date).format('YYYY.MM'),
-        href: obj.href,
-        thumbnail: `background-image: url(/works/img/${obj.key}.webp);`,
+    const workList = computed(() => {
+      // フィルターしてリスト作成
+      let _workList = site.value.customData.workList.map((obj) => {
+        const visible = !(tagFilter.value?.length && (!obj.data.tags?.length || (obj.data.tags?.length  && !tagFiltering(obj.data.tags))))
+        return {
+          title: obj.data.shortTitle,
+          date: dayjs(obj.data.date).format('YYYY.MM'),
+          href: obj.href,
+          key: obj.key,
+          thumbnail: `background-image: url(/works/img/${obj.key}.webp);`,
+          prev: '',
+          next: '',
+          visible
+        }
+      }).sort((a, b) => {
+        const ret = new Date(b[worksQuery.value.key]).getTime() - new Date(a[worksQuery.value.key]).getTime()
+        return worksQuery.value.asc ? ret : -ret
+      }).splice(0, maxItem)
+
+      // 左右ページャー用のリンクを挿入
+      const updateNextPrevLink = (work, key) => {
+        if (!work || !work.visible) return
+        if (_href) work[key] = _href
+        _href = work.href
       }
-    }).sort((a, b) => {
-      const ret = new Date(b[sort.key]).getTime() - new Date(a[sort.key]).getTime()
-      return sort.asc ? ret : -ret
-    }).splice(0, maxItem))
+      let _href = ''
+      _workList.reverse().forEach(work => updateNextPrevLink(work, 'next'))
+      _href = ''
+      _workList.reverse().forEach(work => updateNextPrevLink(work, 'prev'))
+
+      return _workList
+    })
+
+    // nextとprevをセット
+    const workLink = computed(() => {
+      const work = workList.value.find((work) => work.key === activeWorkPageKey.value)
+      return {
+        next: work?.next || '',
+        prev: work?.prev || ''
+      }
+    })
 
     return {
       // store
@@ -166,13 +187,15 @@ export default {
       hideAbout,
       switchAbout,
       worksShowFlg,
+      worksQuery,
+      sortSwitchWorks,
+      activeWorkPageKey,
       // this
       portrait,
-      sort,
       tagFilter,
       workList,
-      sortChange,
-      ascChenge,
+      workLink,
+      debugWindowFlg,
     }
   },
 }
@@ -340,12 +363,17 @@ body {
     }
 }
 .debug {
-  display:none;
   position: fixed;
-  bottom: 0;
-  left: 0;
+  bottom: 1vw;
+  left: 1vw;
   z-index: 9999;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.3);
   color: #FFF;
+  padding: 1em;
+  font-size: 11px;
+  .-title {
+    margin: 0;
+    font-size: 1.2em;
+  }
 }
 </style>

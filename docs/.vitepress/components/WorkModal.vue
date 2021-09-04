@@ -4,6 +4,14 @@
       class="modal-bg"
       href="/"
     />
+    <nav class="modal-nav">
+      <a v-if="pageLink.prev" :href="pageLink.prev" class="modal-nav-prev">
+        <arrowDownIcon class="arrow" />
+      </a>
+      <a v-if="pageLink.next" :href="pageLink.next" class="modal-nav-next">
+        <arrowDownIcon class="arrow" />
+      </a>
+    </nav>
     <transition name="modal-innr">
       <article
         v-show="worksShowFlg"
@@ -66,8 +74,23 @@
 import { inject } from 'vue'
 import { store, storeKey } from '../store/store.ts'
 import { useData } from 'vitepress'
+import arrowDownIcon from './icon/arrowDown.vue'
 
 export default {
+  components: {
+    arrowDownIcon,
+  },
+  props: {
+    pageLink: {
+      type: Object,
+      default() {
+        return {
+          next: '',
+          prev: ''
+        }
+      }
+    }
+  },
   setup() {
     const { worksShowFlg } = inject(storeKey) as store
     const { page } = useData()
@@ -108,7 +131,7 @@ export default {
       box-sizing: border-box;
       z-index: 1;
       box-shadow: 30px 30px 20px #222;
-      background: rgba(255,255,255,0.6);
+      background: rgba(255,255,255,0.8);
       border-radius: 10px;
       border: 1px solid rgba(255,255,255,0.2);
       backdrop-filter: blur(5px);
@@ -118,6 +141,38 @@ export default {
         width: 90%;
         margin: 5vh auto;
         padding: 5em 3em 3em;
+      }
+    }
+    &-nav {
+      &-next,
+      &-prev {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 3vw;
+        min-width: 30px;
+        position: fixed;
+        top: 90vh;
+        z-index: 1;
+        background: rgba(0,0,0,0.4);
+        border-radius: 50%;
+        padding: 2vw;
+        opacity: 0.6;
+        transition-duration: 0.1s;
+        &:hover {
+          opacity: 1;
+        }
+      }
+      &-next {
+        transform: rotate(-90deg);
+        right: 2vw;
+      }
+      &-prev {
+        transform: rotate(90deg);
+        left: 2vw;
+      }
+      svg {
+        fill: #FFF;
       }
     }
     &-close {

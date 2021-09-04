@@ -20,9 +20,9 @@
           <div>
             <p>
               長崎県生まれ。<br>
-              学生の頃のアルバイトからWeb制作に携わる。<br>
-              SIerでエンジニアとして開発業務に従事。<br>
-              2016年よりフリーランスエンジニアへ転向。
+              汎用系プログラマーを約2年経験後にIT業界を離れ、介護福祉士(国家資格)取得し福祉業界に転職、数年のちにIT業界に出戻り。<br>
+              フリーランス転向後の2017年以降はフロントエンジニアとして数々の案件に従事しました。<br>
+              傍らサイト制作などのご依頼を別途請け負っております。
             </p>
           </div>
         </section>
@@ -88,11 +88,11 @@ export default {
       },
       {
         title: 'Framework',
-        tags: ['Vue.js', 'Nuxt.js', 'React', 'Laravel', 'SCSS', 'stylus', 'ElementUI', 'Vuetify', 'Bootstrap'],
+        tags: ['Vue.js', 'Nuxt.js', 'React', 'Laravel', 'ElementUI', 'Vuetify', 'Bootstrap'],
       },
       {
         title: 'others',
-        tags: ['WordPress', 'docker', 'オリジナルテーマ', 'jQuery'],
+        tags: ['WordPress', 'Docker', 'オリジナルテーマ', 'jQuery'],
       },
     ]
 

@@ -1,4 +1,4 @@
-import { ref, computed, ComputedRef, InjectionKey } from "vue"
+import { ref, reactive, computed, ComputedRef, InjectionKey } from "vue"
 
 export interface store {
   aboutShowFlg: ComputedRef<boolean>;
@@ -15,11 +15,29 @@ const hideAbout = () => _aboutShowFlg.value = false
 const switchAbout = () => _aboutShowFlg.value = !_aboutShowFlg.value
 const aboutShowFlg = computed(() => _aboutShowFlg.value)
 
+// path監視
+const path = ref('/')
+// 表示中のwokrページのkey
+const activeWorkPageKey = computed(() => {
+  return path.value.match('(?<=/works/).*(?=.html)')?.[0] || ''
+})
+const updatePath = (p) => path.value = p
+
 // Worksモーダルの表示フラグ
-const _worksShowFlg = ref(false)
-const showWorks = () => _worksShowFlg.value = true
-const hideWorks = () => _worksShowFlg.value = false
-const worksShowFlg = computed(() => _worksShowFlg.value)
+const worksShowFlg = computed(() => path.value !== '/')
+
+// Worksのクエリパラメータ
+const _worksQuery = reactive({
+  key: 'date',
+  asc: false,
+  keyword: '',
+  tag: ''
+})
+const sortWorksByAsc = () => _worksQuery.asc = true
+const sortWorksByDesc = () => _worksQuery.asc = false
+const sortSwitchWorks = () => _worksQuery.asc = !_worksQuery.asc
+const worksQuery = computed(() => _worksQuery)
+
 
 export default {
   // Aboutの表示フラグ
@@ -27,8 +45,12 @@ export default {
   showAbout,
   hideAbout,
   switchAbout,
+  // path監視
+  activeWorkPageKey,
+  updatePath,
   // Worksモーダルの表示フラグ
   worksShowFlg,
-  showWorks,
-  hideWorks,
+  // Worksのクエリパラメータ
+  worksQuery,
+  sortSwitchWorks,
 }
