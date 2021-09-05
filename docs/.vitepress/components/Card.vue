@@ -45,9 +45,30 @@ export default {
   box-shadow: #BBB 6px 6px 8px;
   cursor: pointer;
   overflow: hidden;
-  // animation
-  animation: fuwa-ani;
+  // transition
+  animation: card-anime;
   animation-timing-function: ease-out;
+  transition: all 0.3s ease;
+  opacity: 1;
+  &-enter-active,
+  &-leave-active {
+    transition: all 1s ease;
+  }
+  &-enter-to,
+  &-leave-from {
+    transform: translate(0px,0px);
+    box-shadow: #bbb 6px 6px 8px;
+    opacity: 1;
+  }
+  &-enter-from,
+  &-leave-to {
+    transform: translate(-18px,-25px);
+    box-shadow: #999 22px 22px 16px;
+    opacity: 0;
+  }
+  &-move {
+    transition: transform 3s ease;
+  }
   // Tablet
   flex-basis: $diagonalCardWidthMobile;
   height: ($diagonalCardWidthMobile * 0.56);
@@ -165,7 +186,7 @@ for i in (1..30) {
     &:nth-child(23) { margin-left: ($diagonalCardBlank * 0.5);}
   }
 }
-@keyframes fuwa-ani {
+@keyframes card-anime {
   0% {
     transform: translate(-18px,-25px);
     box-shadow: #999 22px 22px 16px;

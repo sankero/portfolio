@@ -1,15 +1,15 @@
 <template>
-  <div class="diagonal">
+  <transition-group tag="div" class="diagonal" name="card">
     <template
-      v-for="(item, i) in value"
-      :key="i"
+      v-for="(item) in value"
     >
       <card
         v-if="item && item.visible"
         :value="item"
+        :key="item.key"
       />
     </template>
-  </div>
+  </transition-group>
 </template>
 
 <script lang="ts">
@@ -34,6 +34,7 @@ export default {
 .diagonal {
   display: flex;
   flex-wrap: wrap;
+  align-content: flex-start;
   transition-delay: 1s;
   // Mobile and Tablet
   // width: var(--windowHeight, $diagonalWidthMobile);
@@ -55,6 +56,7 @@ export default {
     width: $diagonalWidth;
     transform-origin: center right;
     transform: skew(-35deg, 20deg) translate(40%, 20%);
+    min-height: 100vh;
   }
 }
 </style>
