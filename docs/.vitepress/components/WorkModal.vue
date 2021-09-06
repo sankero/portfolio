@@ -8,6 +8,7 @@
       <a
         v-if="pageLink.prev"
         :href="pageLink.prev"
+        @click="paging('prev')"
         class="modal-nav-prev">
 
         <arrowDownIcon class="arrow" />
@@ -15,14 +16,15 @@
       <a
         v-if="pageLink.next"
         :href="pageLink.next"
+        @click="paging('next')"
         class="modal-nav-next">
 
         <arrowDownIcon class="arrow" />
       </a>
     </nav>
-    <transition name="modal-innr">
+    <transition name="modal-transition" @after-leave="showFlg = true">
       <article
-        v-show="worksShowFlg"
+        v-if="showFlg"
         class="modal-innr md"
         :class="transitionClass"
       >
@@ -80,9 +82,9 @@
 </template>
 
 <script lang="ts">
-import { ref, inject } from 'vue'
+import { ref, inject, onMounted, nextTick } from 'vue'
 import { store, storeKey } from '../store/store.ts'
-import { useData } from 'vitepress'
+import { useRouter, useData } from 'vitepress'
 import arrowDownIcon from './icon/arrowDown.vue'
 
 export default {
@@ -103,7 +105,18 @@ export default {
   setup() {
     const { worksShowFlg } = inject(storeKey) as store
     const { page } = useData()
-    const transitionClass = ref('open')
+    const transitionClass = ref('')
+    const showFlg = ref(false)
+    const paging = (vector) => {
+      transitionClass.value = vector
+      nextTick(() => {
+        showFlg.value = false
+      })
+    }
+
+    onMounted(() => {
+      showFlg.value = true
+    })
 
     return {
       // store
@@ -111,6 +124,8 @@ export default {
       // this
       page,
       transitionClass,
+      showFlg,
+      paging,
     }
   },
 }
@@ -134,6 +149,42 @@ export default {
     position: fixed;
     z-index: -1;
   }
+  &-transition {
+    &-leave-active,
+    &-enter-active {
+      transition-duration: 2s;
+      transition: all 0.5s;
+    }
+    &-leave-from,
+    &-enter-to {
+      opacity: 1;
+      transform: translateX(0vw);
+      &.prev {
+        transform: translateX(0vw);
+      }
+      &.next {
+        transform: translateX(0vw);
+      }
+    }
+    &-leave-to {
+      opacity: 0;
+      &.prev {
+        transform: translateX(100vw);
+      }
+      &.next {
+        transform: translateX(-100vw);
+      }
+    }
+    &-enter-from {
+      opacity: 0;
+      &.prev {
+        transform: translateX(-100vw);
+      }
+      &.next {
+        transform: translateX(100vw);
+      }
+    }
+  }
   &-innr {
     width: 96%;
     max-width: 960px;
@@ -148,12 +199,13 @@ export default {
     border: 1px solid rgba(255,255,255,0.2);
     backdrop-filter: blur(5px);
     // transition
-    opacity: 1;
+    // opacity: 1;
+    /*resize 
     animation: modal-open-anime;
     animation-timing-function: ease-out;
     animation-duration: 0.3s;
-    transition: all 5s ease;
-    transition-duration: 2s;
+    transition: all 1s ease;
+    */
     // PC
     @media (min-aspect-ratio: 1 / 1) {
       width: 90%;
