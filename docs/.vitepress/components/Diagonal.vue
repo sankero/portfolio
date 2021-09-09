@@ -1,14 +1,16 @@
 <template>
-  <transition-group tag="div" class="diagonal" name="card">
-    <template
-      v-for="(item) in value"
-    >
-      <card
-        v-if="item && item.visible"
-        :value="item"
-        :key="item.key"
-      />
-    </template>
+  <transition-group tag="div" name="card">
+    <div class="diagonal">
+      <template
+        v-for="(item) in value"
+      >
+        <card
+          v-if="item && item.visible"
+          :value="item"
+          :key="item.key"
+        />
+      </template>
+    </div>
   </transition-group>
 </template>
 

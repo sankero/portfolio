@@ -153,7 +153,7 @@ export default {
     &-leave-active,
     &-enter-active {
       transition-duration: 2s;
-      transition: all 0.5s;
+      transition: all 0.3s;
     }
     &-leave-from,
     &-enter-to {
